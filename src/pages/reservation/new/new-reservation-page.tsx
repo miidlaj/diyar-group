@@ -93,6 +93,7 @@ const NewReservation: FunctionComponent = () => {
 
   React.useEffect(() => {
     setCustomerCount(parseInt(form.getValues("adult")));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.watch("adult")]);
 
   const [customerCount, setCustomerCount] = React.useState<number>(0);
