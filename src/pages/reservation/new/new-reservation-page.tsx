@@ -138,7 +138,7 @@ const NewReservation: FunctionComponent = () => {
                 </div>
               </div>
               <Separator className="h-[250px]" orientation="vertical" />
-              <div className="w-2/3 space-y-3">
+              <div className="w-2/3 space-y-7">
                 <div className="space-y-3">
                   <Label>Room Type</Label>
                   <div className="flex gap-3">
