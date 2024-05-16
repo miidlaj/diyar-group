@@ -21,32 +21,40 @@ import {
 } from "@/components/ui/table";
 import React from "react";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+
+type DataItem = {
+  companyName: string;
+  place: string;
+  narration: string;
+};
+
+const data: DataItem[] = [
+  {
+    companyName: "Company A",
+    place: "New York",
+    narration: "First company in New York",
+  },
+  {
+    companyName: "Company B",
+    place: "San Francisco",
+    narration: "Second company in San Francisco",
+  },
+  {
+    companyName: "Company C",
+    place: "Los Angeles",
+    narration: "Third company in Los Angeles",
+  },
+];
 
 export default function CompanySelectionModal({
   onSelect,
 }: {
   onSelect: (e: string) => void;
 }) {
-  const data = [
-    {
-      companyName: "Company A",
-      place: "New York",
-      narration: "First company in New York",
-    },
-    {
-      companyName: "Company B",
-      place: "San Francisco",
-      narration: "Second company in San Francisco",
-    },
-    {
-      companyName: "Company C",
-      place: "Los Angeles",
-      narration: "Third company in Los Angeles",
-    },
-  ];
-
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<number | null>(null);
+  const [filteredData, setFilteredData] = React.useState(data);
   const handleClick = (item: number) => {
     setSelected(item);
   };
@@ -55,6 +63,22 @@ export default function CompanySelectionModal({
     if (selected !== null && data[selected]) {
       onSelect(data[selected].companyName);
     }
+  };
+
+  const handleSearch = (keyword: string, field: keyof DataItem) => {
+    if (!keyword) {
+      setFilteredData(data); // Reset to original data if no keyword
+      return;
+    }
+
+    const lowerCaseKeyword = keyword.toLowerCase();
+
+    const filtered = data.filter((item) => {
+      const fieldValue = item[field] ? item[field].toLowerCase() : "";
+      return fieldValue.includes(lowerCaseKeyword);
+    });
+
+    setFilteredData(filtered);
   };
 
   return (
@@ -76,31 +100,70 @@ export default function CompanySelectionModal({
           </TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">SI No.</TableHead>
+              <TableHead>
+                <Input
+                  type="text"
+                  className="w-full"
+                  placeholder="search for company"
+                  onChange={(e) => {
+                    handleSearch(e.target.value, "companyName");
+                  }}
+                />
+              </TableHead>
+              <TableHead>
+                <Input
+                  type="text"
+                  className="w-full"
+                  placeholder="search for place"
+                  onChange={(e) => {
+                    handleSearch(e.target.value, "place");
+                  }}
+                />
+              </TableHead>
+              <TableHead>
+                <Input
+                  type="text"
+                  className="w-full"
+                  placeholder="search for narration"
+                  onChange={(e) => {
+                    handleSearch(e.target.value, "narration");
+                  }}
+                />
+              </TableHead>
+            </TableRow>
+
+            <TableRow>
               <TableHead>Company Name</TableHead>
               <TableHead>Place</TableHead>
               <TableHead>Narration</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((item, index) => (
+            {filteredData.map((item, index) => (
               <TableRow
                 key={item.companyName}
                 onClick={() => handleClick(index)}
                 onDoubleClick={() => {
-                    handleSave();
-                    setOpen(false);
+                  handleSave();
+                  setOpen(false);
                 }}
                 className={`${
                   index === selected ? "bg-green-100 hover:bg-green-200" : ""
                 } cursor-pointer`}
               >
-                <TableCell className="font-medium">{index + 1}</TableCell>
                 <TableCell>{item.companyName}</TableCell>
                 <TableCell>{item.place}</TableCell>
                 <TableCell>{item.narration}</TableCell>
               </TableRow>
             ))}
+
+            {filteredData.length === 0 && (
+              <TableRow>
+                <TableCell className="text-center" colSpan={3}>
+                  No Result
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
 
