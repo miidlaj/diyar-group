@@ -22,6 +22,7 @@ import {
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type DataItem = {
   companyName: string;
@@ -67,7 +68,7 @@ export default function CompanySelectionModal({
 
   const handleSearch = (keyword: string, field: keyof DataItem) => {
     if (!keyword) {
-      setFilteredData(data); // Reset to original data if no keyword
+      setFilteredData(data);
       return;
     }
 
@@ -84,88 +85,84 @@ export default function CompanySelectionModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Search className="h-4 w-4 absolute right-2" />
+        <Search className="h-4 w-4 absolute right-2 cursor-pointer bg-white " />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[1000px]">
         <DialogHeader>
           <DialogTitle>Company Search</DialogTitle>
         </DialogHeader>
 
-        <Table className="">
-          <TableCaption className="">
-            <div className="w-full flex justify-start gap-3">
-              <Badge className="bg-red-600">Unapproved</Badge>
-              <Badge className="bg-blue-600">Blacklisted</Badge>
-            </div>
-          </TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>
-                <Input
-                  type="text"
-                  className="w-full"
-                  placeholder="search for company"
-                  onChange={(e) => {
-                    handleSearch(e.target.value, "companyName");
-                  }}
-                />
-              </TableHead>
-              <TableHead>
-                <Input
-                  type="text"
-                  className="w-full"
-                  placeholder="search for place"
-                  onChange={(e) => {
-                    handleSearch(e.target.value, "place");
-                  }}
-                />
-              </TableHead>
-              <TableHead>
-                <Input
-                  type="text"
-                  className="w-full"
-                  placeholder="search for narration"
-                  onChange={(e) => {
-                    handleSearch(e.target.value, "narration");
-                  }}
-                />
-              </TableHead>
-            </TableRow>
-
-            <TableRow>
-              <TableHead>Company Name</TableHead>
-              <TableHead>Place</TableHead>
-              <TableHead>Narration</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredData.map((item, index) => (
-              <TableRow
-                key={item.companyName}
-                onClick={() => handleClick(index)}
-                onDoubleClick={() => {
-                  handleSave();
-                  setOpen(false);
-                }}
-                className={`${
-                  index === selected ? "bg-green-100 hover:bg-green-200" : ""
-                } cursor-pointer`}
-              >
-                <TableCell>{item.companyName}</TableCell>
-                <TableCell>{item.place}</TableCell>
-                <TableCell>{item.narration}</TableCell>
-              </TableRow>
-            ))}
-
-            {filteredData.length === 0 && (
+        <ScrollArea className="h-[50vh]">
+          <Table className="">
+            <TableCaption className="">
+              <div className="w-full flex justify-start gap-3">
+                <Badge className="bg-red-600">Unapproved</Badge>
+                <Badge className="bg-blue-600">Blacklisted</Badge>
+              </div>
+            </TableCaption>
+            <TableHeader>
               <TableRow>
-                <TableCell className="text-center" colSpan={3}>
-                  No Result
-                </TableCell>
+                <TableHead className="px-[1px]">
+                  <Input
+                    type="text"
+                    className="w-full rounded-none"
+                    placeholder="Company"
+                    onChange={(e) => {
+                      handleSearch(e.target.value, "companyName");
+                    }}
+                  />
+                </TableHead>
+                <TableHead className="px-[1px]">
+                  <Input
+                    type="text"
+                    className="w-full rounded-none"
+                    placeholder="Place"
+                    onChange={(e) => {
+                      handleSearch(e.target.value, "place");
+                    }}
+                  />
+                </TableHead>
+                <TableHead className="px-[1px]">
+                  <Input
+                    type="text"
+                    className="w-full rounded-none"
+                    placeholder="Narration"
+                    onChange={(e) => {
+                      handleSearch(e.target.value, "narration");
+                    }}
+                  />
+                </TableHead>
               </TableRow>
-            )}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredData.map((item, index) => (
+                <TableRow
+                  key={item.companyName}
+                  onClick={() => handleClick(index)}
+                  onDoubleClick={() => {
+                    handleSave();
+                    setOpen(false);
+                  }}
+                  className={`${
+                    index === selected ? "bg-green-100 hover:bg-green-200" : ""
+                  } cursor-pointer`}
+                >
+                  <TableCell>{item.companyName}</TableCell>
+                  <TableCell>{item.place}</TableCell>
+                  <TableCell>{item.narration}</TableCell>
+                </TableRow>
+              ))}
+
+              {filteredData.length === 0 && (
+                <TableRow>
+                  <TableCell className="text-center" colSpan={3}>
+                    No Result
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </ScrollArea>
 
         <DialogFooter className="sm:justify-end">
           <DialogClose asChild>

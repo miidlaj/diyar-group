@@ -19,42 +19,52 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import React from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
+
+type DataItem = {
+  agentName: string;
+  place: string;
+  narration: string;
+};
+
+const data: DataItem[] = [
+  {
+    agentName: "Agent 1",
+    place: "New York",
+    narration: "Visited client for negotiation",
+  },
+  {
+    agentName: "Agent 2",
+    place: "Los Angeles",
+    narration: "Attended a conference",
+  },
+  {
+    agentName: "Agent 3",
+    place: "Chicago",
+    narration: "Met with potential customers",
+  },
+  {
+    agentName: "Agent 4",
+    place: "San Francisco",
+    narration: "Conducted market research",
+  },
+  {
+    agentName: "Agent 5",
+    place: "Miami",
+    narration: "Provided client support",
+  },
+];
 
 export default function AgentSelectionModal({
   onSelect,
 }: {
   onSelect: (e: string) => void;
 }) {
-    const data = [
-        {
-          agentName: "Agent 1",
-          place: "New York",
-          narration: "Visited client for negotiation"
-        },
-        {
-          agentName: "Agent 2",
-          place: "Los Angeles",
-          narration: "Attended a conference"
-        },
-        {
-          agentName: "Agent 3",
-          place: "Chicago",
-          narration: "Met with potential customers"
-        },
-        {
-          agentName: "Agent 4",
-          place: "San Francisco",
-          narration: "Conducted market research"
-        },
-        {
-          agentName: "Agent 5",
-          place: "Miami",
-          narration: "Provided client support"
-        }
-      ];
-
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<number | null>(null);
+  const [filteredData, setFilteredData] = React.useState(data);
+
   const handleClick = (item: number) => {
     setSelected(item);
   };
@@ -63,6 +73,22 @@ export default function AgentSelectionModal({
     if (selected !== null && data[selected]) {
       onSelect(data[selected].agentName);
     }
+  };
+
+  const handleSearch = (keyword: string, field: keyof DataItem) => {
+    if (!keyword) {
+      setFilteredData(data);
+      return;
+    }
+
+    const lowerCaseKeyword = keyword.toLowerCase();
+
+    const filtered = data.filter((item) => {
+      const fieldValue = item[field] ? item[field].toLowerCase() : "";
+      return fieldValue.includes(lowerCaseKeyword);
+    });
+
+    setFilteredData(filtered);
   };
 
   return (
@@ -75,37 +101,71 @@ export default function AgentSelectionModal({
           <DialogTitle>Travel Agent Search</DialogTitle>
         </DialogHeader>
 
-        <Table className="">
-         
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">SI No.</TableHead>
-              <TableHead>Agent Name</TableHead>
-              <TableHead>Place</TableHead>
-              <TableHead>Narration</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((item, index) => (
-              <TableRow
-                key={item.agentName}
-                onClick={() => handleClick(index)}
-                onDoubleClick={() => {
+        <ScrollArea className="h-[50vh]">
+          <Table className="">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="px-[1px]">
+                  <Input
+                    type="text"
+                    className="w-full rounded-none"
+                    placeholder="Agent Name"
+                    onChange={(e) => {
+                      handleSearch(e.target.value, "agentName");
+                    }}
+                  />
+                </TableHead>
+                <TableHead className="px-[1px]">
+                  <Input
+                    type="text"
+                    className="w-full rounded-none"
+                    placeholder="Place"
+                    onChange={(e) => {
+                      handleSearch(e.target.value, "place");
+                    }}
+                  />
+                </TableHead>
+                <TableHead className="px-[1px]">
+                  <Input
+                    type="text"
+                    className="w-full rounded-none"
+                    placeholder="Narration"
+                    onChange={(e) => {
+                      handleSearch(e.target.value, "narration");
+                    }}
+                  />
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredData.map((item, index) => (
+                <TableRow
+                  key={item.agentName}
+                  onClick={() => handleClick(index)}
+                  onDoubleClick={() => {
                     handleSave();
                     setOpen(false);
-                }}
-                className={`${
-                  index === selected ? "bg-green-100 hover:bg-green-200" : ""
-                } cursor-pointer`}
-              >
-                <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell>{item.agentName}</TableCell>
-                <TableCell>{item.place}</TableCell>
-                <TableCell>{item.narration}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                  }}
+                  className={`${
+                    index === selected ? "bg-green-100 hover:bg-green-200" : ""
+                  } cursor-pointer`}
+                >
+                  <TableCell>{item.agentName}</TableCell>
+                  <TableCell>{item.place}</TableCell>
+                  <TableCell>{item.narration}</TableCell>
+                </TableRow>
+              ))}
+
+              {filteredData.length === 0 && (
+                <TableRow>
+                  <TableCell className="text-center" colSpan={3}>
+                    No Result
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </ScrollArea>
 
         <DialogFooter className="sm:justify-end">
           <DialogClose asChild>

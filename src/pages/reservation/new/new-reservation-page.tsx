@@ -5,7 +5,6 @@ import {
   CloudDownload,
   Copy,
   Plus,
-  Search,
   Settings,
 } from "lucide-react";
 import {
@@ -54,6 +53,15 @@ import CompanySelectionModal from "./components/company-selection-modal";
 import AgentSelectionModal from "./components/agent-selection-modal";
 import PlanSelectionModal from "./components/plan-selection-modal";
 import RateCodeSelectionModal from "./components/rate-code-selection-modal";
+import ConfirmReservation from "./components/confirm-reservation";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const formSchema = z.object({
   adult: z.string(),
@@ -66,9 +74,20 @@ const formSchema = z.object({
 
   payment_mode: z.string(),
 
+  check_in: z.date({
+    required_error: "Check in date is required.",
+  }),
+  check_out: z.date({
+    required_error: "Check out date is required.",
+  }),
+
   room_type: z.string(),
   room_number: z.string(),
 });
+
+const today = new Date();
+const tomorrow = new Date(today);
+tomorrow.setDate(today.getDate() + 1);
 
 const NewReservation: FunctionComponent = () => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -83,6 +102,9 @@ const NewReservation: FunctionComponent = () => {
       plan: "",
       rate_code: "",
 
+      check_in: today,
+      check_out: tomorrow,
+
       payment_mode: "",
     },
   });
@@ -91,6 +113,50 @@ const NewReservation: FunctionComponent = () => {
     console.log(values);
   }
 
+  const { toast } = useToast();
+
+  const handleSaveConfirmedReservation = () => {
+    toast({
+      title: "Reservation confirmed.",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{"Reservation No. : #AED1578"}</code>
+        </pre>
+      ),
+    });
+  };
+
+  const handleSaveTentativeReservation = () => {
+    setOpenTentativeModal(true);
+  };
+
+  const handleConfirmTentativeReservation = () => {
+    setOpenTentativeModal(false);
+    toast({
+      title: "Reservation confirmed as tentative booking",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{"Reservation No. : #AED1578"}</code>
+        </pre>
+      ),
+    });
+  };
+
+  const [dates, setDates] = React.useState<{ check_in: Date; check_out: Date }>(
+    {
+      check_in: today,
+      check_out: tomorrow,
+    }
+  );
+
+  React.useEffect(() => {
+    setDates({
+      check_in: form.getValues("check_in"),
+      check_out: form.getValues("check_out"),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.watch("check_in"), form.watch("check_out")]);
+
   React.useEffect(() => {
     setCustomerCount(parseInt(form.getValues("adult")));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,12 +164,109 @@ const NewReservation: FunctionComponent = () => {
 
   const [customerCount, setCustomerCount] = React.useState<number>(0);
 
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
+  const [openTentativeModal, setOpenTentativeModal] = React.useState(false);
+
+  function TentativeReserveModal() {
+    const [date, setDate] = React.useState<Date>();
+
+    return (
+      <Dialog open={openTentativeModal} onOpenChange={setOpenTentativeModal}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Tentative Confirmation</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-right">
+                Due Date
+              </Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "col-span-3 justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="grid grid-cols-4 gap-4">
+              <Label htmlFor="username" className="text-right">
+                Remarks
+              </Label>
+              <Textarea placeholder="remarks" className="col-span-3" rows={4} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit" onClick={handleConfirmTentativeReservation}>
+              Save
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  function DatePickerInput({ name }: { name: "check_in" | "check_out" }) {
+    return (
+      <FormField
+        control={form.control}
+        name={name}
+        render={({ field }) => (
+          <FormItem className="flex flex-col">
+            <Popover>
+              <PopoverTrigger asChild>
+                <FormControl>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[240px] pl-3 text-left font-normal",
+                      !field.value && "text-muted-foreground"
+                    )}
+                  >
+                    {field.value ? (
+                      format(field.value, "PPP")
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  </Button>
+                </FormControl>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={field.value}
+                  onSelect={field.onChange}
+                  disabled={(date) => date < today}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
+  }
 
   return (
     <>
+      <TentativeReserveModal />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="mx-7 space-y-10 pb-10">
@@ -112,7 +275,7 @@ const NewReservation: FunctionComponent = () => {
                 <div className="w-full flex justify-between gap-5">
                   <div className="space-y-3">
                     <Label>Check In</Label>
-                    <DatePickerInput defaultDate={today} />
+                    <DatePickerInput name={"check_in"} />
                   </div>
                   <div className="space-y-3 relative">
                     <Label>Time In</Label>
@@ -127,7 +290,7 @@ const NewReservation: FunctionComponent = () => {
                 <div className="w-full flex justify-between gap-5">
                   <div className="space-y-3">
                     <Label>Check Out</Label>
-                    <DatePickerInput defaultDate={tomorrow} />
+                    <DatePickerInput name={"check_out"} />
                   </div>
                   <div className="space-y-3 relative">
                     <Label>Time Out</Label>
@@ -225,10 +388,6 @@ const NewReservation: FunctionComponent = () => {
                         }}
                       />
                     </div>
-                    <LabelInputSearch
-                      placeholder="select or add new"
-                      label="Source of booking"
-                    />
 
                     <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5 relative">
                       <Label>Rate Code</Label>
@@ -262,7 +421,7 @@ const NewReservation: FunctionComponent = () => {
                   </div>
                   <div className="space-y-3 w-1/2">
                     <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
-                      <Label>Reservation</Label>
+                      <Label>Reservation No.</Label>
                       <Input placeholder="" />
                     </div>
 
@@ -271,10 +430,26 @@ const NewReservation: FunctionComponent = () => {
                       <Input type="number" value={1} />
                     </div>
 
-                    <LabelInputSearch
-                      placeholder="select or add new"
-                      label="Source of booking"
-                    />
+                    <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
+                      <Label>Reservation Status</Label>
+                      <Select>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Status</SelectLabel>
+                            {["Confirmed", "Tentative", "Waitlist"].map(
+                              (item, index) => (
+                                <SelectItem key={index} value={item}>
+                                  {item}
+                                </SelectItem>
+                              )
+                            )}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
                     <div className="flex justify-start gap-10">
                       <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
                         <Label>Adult</Label>
@@ -355,7 +530,7 @@ const NewReservation: FunctionComponent = () => {
                 <ScrollArea className="h-32 w-full rounded-md border relative">
                   <Table>
                     <TableHeader className="">
-                      <TableRow>
+                      <TableRow className="bg-gray-200">
                         <TableHead className="w-[150px]">
                           Registration ID
                         </TableHead>
@@ -420,9 +595,19 @@ const NewReservation: FunctionComponent = () => {
                   />
                 </div>
 
-                <LabelInputSearch placeholder="100" label="Plan Amount" />
-                <LabelInputSearch placeholder="50%" label="Disc %" />
-                <LabelInputSearch placeholder="50 AED" label="Disc Amount" />
+                <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
+                  <Label>Plan Amount</Label>
+                  <Input type="text" placeholder="100" />
+                </div>
+                <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
+                  <Label>Disc %</Label>
+                  <Input type="text" placeholder="10%" />
+                </div>
+
+                <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
+                  <Label>Disc Amount</Label>
+                  <Input type="text" placeholder="50 AED" />
+                </div>
               </div>
             </div>
             <div className="flex justify-between gap-5 max-w-full">
@@ -455,14 +640,14 @@ const NewReservation: FunctionComponent = () => {
                 </div>
 
                 <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
-                  <Label>BusSource</Label>
+                  <Label>Source of Booking</Label>
                   <Select>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select a BusSource" />
+                      <SelectValue placeholder="Select a Source" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectLabel>BusSource</SelectLabel>
+                        <SelectLabel>Sources</SelectLabel>
                         {[
                           "Guest Direct",
                           "Corporate",
@@ -664,16 +849,28 @@ const NewReservation: FunctionComponent = () => {
                   </div>
                 </div>
                 <div className="flex justify-between gap-5">
-                  <button className="cursor-pointer py-3 w-full text-center bg-royalblue-100 rounded-lg">
-                    <div className="relative text-mini tracking-[0.01em] leading-[22px] font-medium font-roboto text-white text-left inline-block min-w-[56px]">
-                      Confirm
-                    </div>
-                  </button>
-                  <button className="cursor-pointer py-3 w-full bg-grey-grey-200 rounded-lg ">
-                    <div className="relative text-mini tracking-[0.01em] leading-[22px] font-medium font-roboto text-white text-left inline-block min-w-[64px]">
-                      Tentative
-                    </div>
-                  </button>
+                  <ConfirmReservation
+                    save={handleSaveConfirmedReservation}
+                    check_in={dates.check_in}
+                    check_out={dates.check_out}
+                  >
+                    <button className="cursor-pointer py-3 w-full text-center bg-royalblue-100 rounded-lg">
+                      <div className="relative text-mini tracking-[0.01em] leading-[22px] font-medium font-roboto text-white text-left inline-block min-w-[56px]">
+                        Confirm
+                      </div>
+                    </button>
+                  </ConfirmReservation>
+                  <ConfirmReservation
+                    save={handleSaveTentativeReservation}
+                    check_in={dates.check_in}
+                    check_out={dates.check_out}
+                  >
+                    <button className="cursor-pointer py-3 w-full bg-grey-grey-200 rounded-lg ">
+                      <div className="relative text-mini tracking-[0.01em] leading-[22px] font-medium font-roboto text-white text-left inline-block min-w-[64px]">
+                        Tentative
+                      </div>
+                    </button>
+                  </ConfirmReservation>
                 </div>
               </div>
             </div>
@@ -685,50 +882,3 @@ const NewReservation: FunctionComponent = () => {
 };
 
 export default NewReservation;
-
-const LabelInputSearch = ({
-  label,
-  placeholder,
-}: {
-  label: string;
-  placeholder?: string;
-}) => {
-  return (
-    <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5 relative">
-      <Label>{label}</Label>
-      <Input type="text" placeholder={placeholder} />
-      <Search className="h-4 w-4 absolute right-2" />
-    </div>
-  );
-};
-
-function DatePickerInput({ defaultDate }: { defaultDate: Date }) {
-  const [date, setDate] = React.useState<Date>(defaultDate);
-
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span></span>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={(e) => {
-            if (e) setDate(e);
-          }}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
-  );
-}
