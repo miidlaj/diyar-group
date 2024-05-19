@@ -2,7 +2,6 @@ import React, { FunctionComponent } from "react";
 import {
   AlarmClock,
   CalendarIcon,
-  CloudDownload,
   Copy,
   Edit,
   Plus,

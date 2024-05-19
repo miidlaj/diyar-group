@@ -8,7 +8,7 @@ import {
   subDays,
 } from "date-fns";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -234,7 +234,12 @@ export default function Calendar() {
     return dates;
   };
 
-  const [dates, setDates] = useState<Date[]>(generateCurrentDateArray());
+  React.useEffect(() => {
+    const generated = generateCurrentDateArray();
+    setDates(generated);
+  }, []);
+
+  const [dates, setDates] = useState<Date[]>([]);
 
   const renderHeader = () => {
     return (
