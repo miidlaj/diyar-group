@@ -40,6 +40,7 @@ export default function ConfirmReservation({
 
   React.useEffect(() => {
     createDateArray();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [check_in, check_out]);
 
   const createDateArray = () => {

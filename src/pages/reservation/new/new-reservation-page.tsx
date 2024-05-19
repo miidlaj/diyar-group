@@ -4,8 +4,11 @@ import {
   CalendarIcon,
   CloudDownload,
   Copy,
+  Edit,
   Plus,
+  Search,
   Settings,
+  Users,
 } from "lucide-react";
 import {
   Table,
@@ -96,15 +99,12 @@ const NewReservation: FunctionComponent = () => {
       adult: "2",
       child: "0",
       room_type: "All room(5)",
-
       company_name: "",
       travel_agent: "",
       plan: "",
       rate_code: "",
-
       check_in: today,
       check_out: tomorrow,
-
       payment_mode: "",
     },
   });
@@ -233,7 +233,7 @@ const NewReservation: FunctionComponent = () => {
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "w-[240px] pl-3 text-left font-normal",
+                      "w-[200px] pl-3 text-left font-normal",
                       !field.value && "text-muted-foreground"
                     )}
                   >
@@ -256,7 +256,6 @@ const NewReservation: FunctionComponent = () => {
                 />
               </PopoverContent>
             </Popover>
-
             <FormMessage />
           </FormItem>
         )}
@@ -520,7 +519,7 @@ const NewReservation: FunctionComponent = () => {
                       <Copy className="h-4 w-4" />
                     </Button>
                     <Button variant="outline" size="icon">
-                      <CloudDownload className="h-4 w-4" />
+                      <Users className="h-4 w-4" />
                     </Button>
                     <Button variant="outline">
                       <Settings className="mr-2 h-4 w-4" /> Settings
@@ -537,27 +536,50 @@ const NewReservation: FunctionComponent = () => {
                         <TableHead>Name</TableHead>
                         <TableHead>Second Name</TableHead>
                         <TableHead>Room Type</TableHead>
-                        <TableHead>Room No.</TableHead>
+                        <TableHead></TableHead>
                       </TableRow>
                     </TableHeader>
-                    <TableBody>
+                    <TableBody className="border">
                       {Array.from({ length: customerCount }).map((_, index) => (
                         <TableRow key={index}>
-                          <TableCell>{"#" + (index + 1)}</TableCell>
-                          <TableCell>
-                            <input
+                          <TableCell className="">
+                            {"#" + (index + 1)}
+                          </TableCell>
+                          <TableCell className="px-[1px] py-0 my-0">
+                            <Input
                               type="text"
-                              className="w-full h-6 border px-1 "
+                              className="w-full rounded-none h-8"
+                              placeholder="First Name"
+                             
                             />
                           </TableCell>
-                          <TableCell>
-                            <input
+                          <TableCell className="px-[1px]">
+                            <Input
                               type="text"
-                              className="w-full h-6 border px-1"
+                              className="w-full rounded-none h-8"
+                              placeholder="Last Name"
+                             
                             />
                           </TableCell>
-                          <TableCell>{form.getValues("room_type")}</TableCell>
-                          <TableCell>{form.getValues("room_number")}</TableCell>
+                          <TableCell className="border-r">
+                            {form.getValues("room_type")}
+                          </TableCell>
+
+                          <TableCell className="border-r gap-0">
+                            <Button variant="ghost" size="sm">
+                              <Search className="h-3 w-3" />
+                            </Button>
+
+                            <Button variant="ghost" size="sm">
+                              <Edit className="h-3 w-3" />
+                            </Button>
+
+                            <Button variant="ghost" size="sm">
+                              <span className="font-bold text-sm font-sans">
+                                P
+                              </span>
+                            </Button>
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -722,7 +744,7 @@ const NewReservation: FunctionComponent = () => {
                   <Textarea placeholder="" />
                 </div>
               </div>
-              <Separator className="h-[200px]" orientation="vertical" />
+              <Separator className="h-[250px]" orientation="vertical" />
               <div className="space-y-3 w-1/2">
                 <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
                   <Label>Room Price</Label>
