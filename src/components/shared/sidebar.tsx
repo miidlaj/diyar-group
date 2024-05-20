@@ -20,6 +20,11 @@ const links = [
         name: "Reservation",
         link: "/new",
       },
+      {
+        name: "Reservation Check In",
+        link: "/check-in",
+      },
+      
     ],
   },
 
@@ -79,7 +84,11 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
                     </div>
 
                     <div className=" flex justify-end items-center">
-                      <ChevronUp className="h-4 w-4" />
+                      <ChevronUp
+                        className={`h-4 w-4 transition transform duration-300 ease-in-out ${
+                          dropDown.includes(item.name) && "rotate-180"
+                        }`}
+                      />
                     </div>
                   </div>
 

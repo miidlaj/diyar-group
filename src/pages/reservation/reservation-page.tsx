@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import NewReservationPage from "./new/new-reservation-page";
+import ReservationCheckIn from "./reservation-checkin/page";
 
 export default function ReservationPage() {
   return (
@@ -7,6 +8,8 @@ export default function ReservationPage() {
      
           <Routes>
             <Route path="/new" element={<NewReservationPage />} />
+            <Route path="/check-in" element={<ReservationCheckIn />} />
+
           </Routes>
        
     </>
