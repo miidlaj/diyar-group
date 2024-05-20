@@ -10,17 +10,17 @@ function App() {
     <>
       <BrowserRouter>
         <div className="max-w-[100vw] flex">
-          <SideBar />
+          <SideBar>
+            <div className="">
+              <Header />
 
-          <div className="">
-            <Header />
-
-            <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/reservation/*" element={<ReservationPage />} />
-              <Route path="/queries/*" element={<QueriesPage />} />
-            </Routes>
-          </div>
+              <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/reservation/*" element={<ReservationPage />} />
+                <Route path="/queries/*" element={<QueriesPage />} />
+              </Routes>
+            </div>
+          </SideBar>
         </div>
       </BrowserRouter>
     </>
