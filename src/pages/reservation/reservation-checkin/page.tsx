@@ -1,6 +1,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CloudDownload, EllipsisVertical, Filter, Plus, Settings } from "lucide-react";
+import {
+  CloudDownload,
+  EllipsisVertical,
+  Filter,
+  Plus,
+  Settings,
+} from "lucide-react";
 import {
   Table,
   TableBody,
@@ -166,13 +172,12 @@ export default function ReservationCheckIn() {
                   </TableCell>
 
                   <TableCell>
-                  <EllipsisVertical className="h-4 w-4" />
+                    <EllipsisVertical className="h-4 w-4" />
                   </TableCell>
                 </TableRow>
               );
             })}
           </TableBody>
-         
         </Table>
       </div>
     </>

@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import {
-  Bell,
   CalendarCheck,
   CheckCircle,
   ChevronUp,
   Hotel,
   ListChecks,
+  Tally3,
+  X,
 } from "lucide-react";
 
 const links = [
@@ -24,7 +25,6 @@ const links = [
         name: "Reservation Check In",
         link: "/check-in",
       },
-      
     ],
   },
 
@@ -47,18 +47,45 @@ const links = [
 const SideBar = ({ children }: { children: React.ReactNode }) => {
   const [dropDown, setDropDown] = React.useState<string[]>([]);
 
+  const [collapsed, setCollapsed] = React.useState(false);
+
+  const toggleSidebar = () => {
+    setCollapsed(!collapsed);
+  };
+
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-muted/40 md:block">
+    <div className="min-h-screen w-full flex">
+      <div
+        className={`border-r bg-muted/40 ${
+          collapsed
+            ? "w-[70px] transition-all ease-in-out duration-300 transform"
+            : "w-[280px] transition-all ease-in-out duration-300 transform"
+        }`}
+      >
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-            <Link to="/" className="flex items-center gap-2 font-semibold">
+            <Link
+              to="/"
+              className={`flex items-center gap-2 font-semibold ${
+                collapsed && "hidden"
+              }`}
+            >
               <Hotel className="h-6 w-6" />
-              <span className="">Diyar Group</span>
+              <span className={`${collapsed && "hidden"}`}>Diyar Group</span>
             </Link>
-            <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-              <Bell className="h-4 w-4" />
-              <span className="sr-only">Toggle notifications</span>
+            <Button
+              variant="outline"
+              size="icon"
+              className="ml-auto"
+              onClick={toggleSidebar}
+            >
+              {collapsed ? (
+                <Tally3 className="h-4 w-4 rotate-90" />
+              ) : (
+                <X className="h-4 w-4" />
+              )}
+
+              <span className="sr-only">Toggle</span>
             </Button>
           </div>
           <div className="flex-1">
@@ -69,6 +96,10 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
                     key={index}
                     className="flex items-center justify-between rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer"
                     onClick={() => {
+                      if (collapsed) {
+                        setCollapsed(false);
+                        return;
+                      }
                       if (dropDown.includes(item.name)) {
                         setDropDown((prev) =>
                           prev.filter((x) => x !== item.name)
@@ -80,10 +111,16 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
                   >
                     <div className="flex gap-3 items-center">
                       <item.icon className="h-4 w-4" />
-                      {item.name}
+                      <span className={`${collapsed && "hidden"}`}>
+                        {item.name}
+                      </span>
                     </div>
 
-                    <div className=" flex justify-end items-center">
+                    <div
+                      className={`flex justify-end items-center ${
+                        collapsed && "hidden"
+                      }`}
+                    >
                       <ChevronUp
                         className={`h-4 w-4 transition transform duration-300 ease-in-out ${
                           dropDown.includes(item.name) && "rotate-180"
@@ -93,7 +130,9 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
                   </div>
 
                   {dropDown.includes(item.name) && (
-                    <div className="flex flex-col pl-3">
+                    <div
+                      className={`flex flex-col pl-3 ${collapsed && "hidden"}`}
+                    >
                       {item.sub.map((child, index) => (
                         <Link
                           key={index}
@@ -113,7 +152,7 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
 
-      <main>{children}</main>
+      <main className="w-full">{children}</main>
     </div>
   );
 };

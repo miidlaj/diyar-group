@@ -55,7 +55,6 @@ import CompanySelectionModal from "./components/company-selection-modal";
 import AgentSelectionModal from "./components/agent-selection-modal";
 import PlanSelectionModal from "./components/plan-selection-modal";
 import RateCodeSelectionModal from "./components/rate-code-selection-modal";
-import ConfirmReservation from "./components/confirm-reservation";
 import { useToast } from "@/components/ui/use-toast";
 import {
   Dialog,
@@ -92,7 +91,7 @@ const today = new Date();
 const tomorrow = new Date(today);
 tomorrow.setDate(today.getDate() + 1);
 
-const NewReservation: FunctionComponent = () => {
+const ConfirmPage: FunctionComponent = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -117,23 +116,6 @@ const NewReservation: FunctionComponent = () => {
 
   const navigate = useNavigate();
 
-  const handleSaveConfirmedReservation = () => {
-    toast({
-      title: "Reservation confirmed.",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{"Reservation No. : #AED1578"}</code>
-        </pre>
-      ),
-    });
-
-    navigate("/reservation/confirm");
-  };
-
-  const handleSaveTentativeReservation = () => {
-    setOpenTentativeModal(true);
-  };
-
   const handleConfirmTentativeReservation = () => {
     setOpenTentativeModal(false);
     toast({
@@ -145,7 +127,7 @@ const NewReservation: FunctionComponent = () => {
       ),
     });
 
-    navigate("/reservation/confirm-tentative");
+    navigate("/reservation/tentative-confirm");
   };
 
   const [dates, setDates] = React.useState<{ check_in: Date; check_out: Date }>(
@@ -794,7 +776,9 @@ const NewReservation: FunctionComponent = () => {
                 </div>
               </div>
               <div className="space-y-3 w-1/2">
-                <Label>Room and other services Payment </Label>
+                <Label className="text-gray-600 text-lg">
+                  Room and other services Payment{" "}
+                </Label>
                 <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
                   <FormField
                     control={form.control}
@@ -859,44 +843,24 @@ const NewReservation: FunctionComponent = () => {
                 </div>
                 <div className="flex justify-between gap-5">
                   <div className="space-y-2">
-                    <Label>Balance Payable</Label>
-                    <Input
-                      type="text"
-                      value={120}
-                      onChange={(_) => {
-                        _.target;
-                      }}
-                      className="bg-gold-100 border "
-                    />
+                    <Label>Payable</Label>
+                    <div className="border rounded text-center font-bold px-8 w-44 py-2">
+                      1799 SR
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <Label>Reference No</Label>
                     <Input type="text" className=" " />
                   </div>
                 </div>
-                <div className="flex justify-between gap-5">
-                  <ConfirmReservation
-                    save={handleSaveConfirmedReservation}
-                    check_in={dates.check_in}
-                    check_out={dates.check_out}
-                  >
-                    <button className="cursor-pointer py-3 w-full text-center bg-royalblue-100 rounded-lg">
-                      <div className="relative text-mini tracking-[0.01em] leading-[22px] font-medium font-roboto text-white text-left inline-block min-w-[56px]">
-                        Confirm
-                      </div>
-                    </button>
-                  </ConfirmReservation>
-                  <ConfirmReservation
-                    save={handleSaveTentativeReservation}
-                    check_in={dates.check_in}
-                    check_out={dates.check_out}
-                  >
-                    <button className="cursor-pointer py-3 w-full bg-grey-grey-200 rounded-lg ">
-                      <div className="relative text-mini tracking-[0.01em] leading-[22px] font-medium font-roboto text-white text-left inline-block min-w-[64px]">
-                        Tentative
-                      </div>
-                    </button>
-                  </ConfirmReservation>
+
+                <div className="grid w-full grid-cols-2 max-w-sm gap-1.5 items-start">
+                  <Label>Remarks</Label>
+                  <Textarea placeholder="Type" rows={4} />
+                </div>
+
+                <div>
+                  <Button className=" bg-sky-500 font-medium px-10">Pay</Button>
                 </div>
               </div>
             </div>
@@ -907,4 +871,4 @@ const NewReservation: FunctionComponent = () => {
   );
 };
 
-export default NewReservation;
+export default ConfirmPage;
