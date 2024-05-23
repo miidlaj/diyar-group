@@ -138,6 +138,8 @@ const ConfirmPage: FunctionComponent = () => {
   );
 
   React.useEffect(() => {
+    console.log(dates);
+
     setDates({
       check_in: form.getValues("check_in"),
       check_out: form.getValues("check_out"),
