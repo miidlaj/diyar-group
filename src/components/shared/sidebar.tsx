@@ -67,7 +67,7 @@ const SideBar = ({ children }: { children: React.ReactNode }) => {
             <Link
               to="/"
               className={`flex items-center gap-2 font-semibold ${
-                collapsed && "hidden"
+                collapsed ? "scale-0 hidden" : "scale-100"
               }`}
             >
               <Hotel className="h-6 w-6" />

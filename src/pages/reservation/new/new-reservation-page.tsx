@@ -64,7 +64,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
   adult: z.string(),
@@ -83,6 +82,8 @@ const formSchema = z.object({
   check_out: z.date({
     required_error: "Check out date is required.",
   }),
+
+  status: z.string(),
 
   room_type: z.string(),
   room_number: z.string(),
@@ -115,7 +116,6 @@ const NewReservation: FunctionComponent = () => {
 
   const { toast } = useToast();
 
-  const navigate = useNavigate();
 
   const handleSaveConfirmedReservation = () => {
     toast({
@@ -127,7 +127,6 @@ const NewReservation: FunctionComponent = () => {
       ),
     });
 
-    navigate("/reservation/confirm");
   };
 
   const handleSaveTentativeReservation = () => {
@@ -145,7 +144,6 @@ const NewReservation: FunctionComponent = () => {
       ),
     });
 
-    navigate("/reservation/confirm-tentative");
   };
 
   const [dates, setDates] = React.useState<{ check_in: Date; check_out: Date }>(
@@ -437,6 +435,40 @@ const NewReservation: FunctionComponent = () => {
 
                     <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
                       <Label>Reservation Status</Label>
+
+                      <FormField
+                        control={form.control}
+                        name="status"
+                        render={({ field }) => (
+                          <FormItem>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger className="w-full">
+                                  <SelectValue placeholder="Select a status" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectGroup>
+                                  <SelectLabel>Status</SelectLabel>
+                                  {["Confirmed", "Tentative", "Waitlist"].map(
+                                    (item, index) => (
+                                      <SelectItem key={index} value={item}>
+                                        {item}
+                                      </SelectItem>
+                                    )
+                                  )}
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
                       <Select>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a status" />
@@ -793,112 +825,145 @@ const NewReservation: FunctionComponent = () => {
                   </Select>
                 </div>
               </div>
-              <div className="space-y-3 w-1/2">
-                <Label>Room and other services Payment </Label>
-                <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
-                  <FormField
-                    control={form.control}
-                    name="payment_mode"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Payment Mode" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Payment Mode</SelectLabel>
-                              {[
-                                "Direct Payment",
-                                "Bank Transfer",
-                                "Card Payment",
-                                "Cheque",
-                              ].map((item, index) => (
-                                <SelectItem value={item} key={index}>
-                                  {item}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
 
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
-                  {form.watch("payment_mode") === "Direct Payment" && (
-                    <>
-                      <Input
-                        type="text"
-                        value={"Cash"}
-                        className="w-full"
-                        disabled
-                      />
-                    </>
-                  )}
+              {form.watch("status") === "Tentative" && (
+                <div className="space-y-3 w-1/2">
+                  <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
+                    <Label className="flex flex-col gap-3">
+                      Compnay Name
+                      <span className="text-xs text-muted-foreground font-thin">
+                        Al Hind Group
+                      </span>
+                    </Label>
+                    <Label className="flex flex-col gap-3">
+                      Optional Date
+                      <span className="text-xs text-muted-foreground font-thin">
+                        Tue, Mar 2
+                      </span>
+                    </Label>
+                  </div>
+                  <div className="grid w-full grid-cols-2 max-w-sm gap-1.5 items-start">
+                    <Label className="flex flex-col gap-3">
+                      Customer Name
+                      <span className="text-xs text-muted-foreground font-thin">
+                        Rahman
+                      </span>
+                    </Label>
+                    <Textarea placeholder="Type" rows={4} />
+                  </div>
 
-                  {form.watch("payment_mode") !== "Direct Payment" && (
-                    <Select>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select Bank" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Select Bank</SelectLabel>
-                          <SelectItem value="apple">Bank 1</SelectItem>
-                          <SelectItem value="banana">Bank 2</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  )}
-                </div>
-                <div className="flex justify-between gap-5">
-                  <div className="space-y-2">
-                    <Label>Balance Payable</Label>
-                    <Input
-                      type="text"
-                      value={120}
-                      onChange={(_) => {
-                        _.target;
-                      }}
-                      className="bg-gold-100 border "
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Reference No</Label>
-                    <Input type="text" className=" " />
-                  </div>
-                </div>
-                <div className="flex justify-between gap-5">
-                  <ConfirmReservation
-                    save={handleSaveConfirmedReservation}
-                    check_in={dates.check_in}
-                    check_out={dates.check_out}
-                  >
-                    <button className="cursor-pointer py-3 w-full text-center bg-royalblue-100 rounded-lg">
-                      <div className="relative text-mini tracking-[0.01em] leading-[22px] font-medium font-roboto text-white text-left inline-block min-w-[56px]">
-                        Confirm
-                      </div>
-                    </button>
-                  </ConfirmReservation>
                   <ConfirmReservation
                     save={handleSaveTentativeReservation}
                     check_in={dates.check_in}
                     check_out={dates.check_out}
                   >
-                    <button className="cursor-pointer py-3 w-full bg-grey-grey-200 rounded-lg ">
-                      <div className="relative text-mini tracking-[0.01em] leading-[22px] font-medium font-roboto text-white text-left inline-block min-w-[64px]">
-                        Tentative
-                      </div>
-                    </button>
+                    <div>
+                      <Button className=" bg-sky-500 font-medium">
+                        Confirm
+                      </Button>
+                    </div>
                   </ConfirmReservation>
                 </div>
-              </div>
+              )}
+
+              {form.watch("status") === "Confirmed" && (
+                <div className="space-y-3 w-1/2">
+                  <Label className="text-gray-600 text-lg">
+                    Room and other services Payment{" "}
+                  </Label>
+                  <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
+                    <FormField
+                      control={form.control}
+                      name="payment_mode"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Payment Mode" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Payment Mode</SelectLabel>
+                                {[
+                                  "Direct Payment",
+                                  "Bank Transfer",
+                                  "Card Payment",
+                                  "Cheque",
+                                ].map((item, index) => (
+                                  <SelectItem value={item} key={index}>
+                                    {item}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
+                    {form.watch("payment_mode") === "Direct Payment" && (
+                      <>
+                        <Input
+                          type="text"
+                          value={"Cash"}
+                          className="w-full"
+                          disabled
+                        />
+                      </>
+                    )}
+
+                    {form.watch("payment_mode") !== "Direct Payment" && (
+                      <Select>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select Bank" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Select Bank</SelectLabel>
+                            <SelectItem value="apple">Bank 1</SelectItem>
+                            <SelectItem value="banana">Bank 2</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  </div>
+                  <div className="flex justify-between gap-5">
+                    <div className="space-y-2">
+                      <Label>Payable</Label>
+                      <div className="border rounded text-center font-bold px-8 w-44 py-2">
+                        1799 SR
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Reference No</Label>
+                      <Input type="text" className=" " />
+                    </div>
+                  </div>
+
+                  <div className="grid w-full grid-cols-2 max-w-sm gap-1.5 items-start">
+                    <Label>Remarks</Label>
+                    <Textarea placeholder="Type" rows={4} />
+                  </div>
+
+                  <ConfirmReservation
+                    save={handleSaveConfirmedReservation}
+                    check_in={dates.check_in}
+                    check_out={dates.check_out}
+                  >
+                    <div>
+                      <Button className=" bg-sky-500 font-medium px-10">
+                        Pay
+                      </Button>
+                    </div>
+                  </ConfirmReservation>
+                </div>
+              )}
             </div>
           </div>
         </form>
