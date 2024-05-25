@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { CloudDownload, Edit, Plus, Scroll, Search } from "lucide-react";
 import {
   Table,
