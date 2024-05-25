@@ -25,6 +25,16 @@ const links = [
         name: "Reservation Check In",
         link: "/check-in",
       },
+
+      {
+        name: "Bookings",
+        link: "/bookings",
+      },
+
+      {
+        name: "Tentative Bookings",
+        link: "/bookings/tentative",
+      },
     ],
   },
 

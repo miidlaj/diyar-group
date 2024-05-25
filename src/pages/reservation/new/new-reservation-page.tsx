@@ -781,6 +781,7 @@ const NewReservation: FunctionComponent = () => {
                 </div>
               </div>
               <Separator className="h-[250px]" orientation="vertical" />
+              
               <div className="space-y-3 w-1/2">
                 <div className="grid w-full grid-cols-2 max-w-sm items-center gap-1.5">
                   <Label>Room Price</Label>

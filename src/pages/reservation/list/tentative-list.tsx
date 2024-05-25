@@ -16,7 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export default function ReservationCheckIn() {
+export default function TentativeList() {
   const bookings = [
     {
       referenceNo: "12345",
@@ -74,12 +74,12 @@ export default function ReservationCheckIn() {
         <div className="flex justify-between items-start">
           <div className="space-y-1">
             <h1 className="text-lg font-bold flex items-center gap-2">
-              Booking List{" "}
+              Tentative List{" "}
               <Badge className="bg-purple-100 text-purple-500 font-mono">
                 162
               </Badge>
             </h1>
-            <p className="text-lg">Total 16 Check in Today</p>
+            <p className="text-lg">Total 5 booking for awaiting for approval</p>
           </div>
 
           <div className="flex gap-2">
