@@ -27,6 +27,11 @@ const links = [
       },
 
       {
+        name: "Reservation Check Out",
+        link: "/check-out",
+      },
+
+      {
         name: "Bookings",
         link: "/bookings",
       },
