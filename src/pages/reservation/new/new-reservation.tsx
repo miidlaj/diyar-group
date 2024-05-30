@@ -47,6 +47,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import {
   CalendarIcon,
+  CircleHelp,
   CloudDownload,
   EllipsisVertical,
   Filter,
@@ -61,6 +62,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const formSchema = z.object({
   adult: z.string(),
@@ -492,7 +499,7 @@ export default function NewReservationPage() {
                     </span>
                   </h1>
 
-                  <p className="font-mono text-black/750">
+                  <p className="text-muted-foreground text-md">
                     Total 10 Adults and 10 rooms selected
                   </p>
                 </div>
@@ -509,14 +516,18 @@ export default function NewReservationPage() {
                     <Settings className="mr-2 h-4 w-4" /> Settings
                   </Button>
 
-                  <Button variant="outline" size="icon">
+               
+                </div>
+              </div>
+
+              <div className="w-full flex justify-end gap-2">
+              <Button variant="outline" size="icon">
                     <Search className="h-4 w-4" />
                   </Button>
 
                   <Button variant="outline">
                     <Filter className="mr-2 h-4 w-4" /> Filter
                   </Button>
-                </div>
               </div>
               <ScrollArea className="h-96 w-full rounded-md relative">
                 <Table>
@@ -527,8 +538,8 @@ export default function NewReservationPage() {
                       <TableHead>Phone</TableHead>
                       <TableHead>Room Type</TableHead>
                       <TableHead>Rate Code</TableHead>
-                      <TableHead>Pick and Drop</TableHead>
-                      <TableHead></TableHead>
+                      <TableHead className="w-44">Pick and Drop</TableHead>
+                      <TableHead className="w-10"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody className="text-muted-foreground">
@@ -550,17 +561,17 @@ export default function NewReservationPage() {
 
                         <TableCell>Regular Tariff</TableCell>
 
-                        <TableCell>
+                        <TableCell className="w-44">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button
                                 variant="link"
-                                className="hover:no-underline focus-visible:ring-0"
+                                className="hover:no-underline focus-visible:ring-0 px-0"
                               >
                                 {renderContent(status)}
                               </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-56">
+                            <DropdownMenuContent className="w-44">
                               <DropdownMenuLabel>Options</DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               <DropdownMenuRadioGroup
@@ -581,7 +592,7 @@ export default function NewReservationPage() {
                           </DropdownMenu>
                         </TableCell>
 
-                        <TableCell className="border-r gap-0">
+                        <TableCell className="w-10">
                           <Button variant="ghost" size="icon">
                             <EllipsisVertical className="h-4 w-4" />
                           </Button>
@@ -593,11 +604,11 @@ export default function NewReservationPage() {
               </ScrollArea>
             </div>
 
-            <div className="flex gap-5 w-full">
-              <div className="w-3/5 shadow-md border-2 border-black/75 shadow-black/75 p-5 rounded-lg space-y-5">
-                <div>
+            <div className="flex gap-5 w-full h-96">
+              <div className="w-3/5 shadow-md border-2 border-black/75 shadow-black/75 p-5 rounded-lg space-y-5 h-full">
+                <div className="space-y-2">
                   <h1 className="font-bold">Summary</h1>
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground text-md">
                     Resultados del mes actual
                   </p>
                 </div>
@@ -606,30 +617,32 @@ export default function NewReservationPage() {
                   <TabsList className="bg-white rounded-none">
                     <TabsTrigger
                       value="summary"
-                      className="px-0 pr-3 items-end text-gray-500 border-b-gray-200 data-[state=active]:text-purple-500 data-[state=active]:shadow-none data-[state=active]:border-b-purple-500 border-b-2 w-max h-full pb-3 rounded-none data-[state=active]:font-bold cursor-pointer text-base"
+                      className="px-0 pr-5 items-end text-gray-500 border-b-gray-200 data-[state=active]:text-purple-500 data-[state=active]:shadow-none data-[state=active]:border-b-purple-500 border-b-2 w-max h-full pb-3 rounded-none data-[state=active]:font-bold cursor-pointer text-base"
                     >
                       Summary
                     </TabsTrigger>
                     <TabsTrigger
                       value="room-pricing"
-                      className="px-0 pr-3 items-end text-gray-500 border-b-gray-200 data-[state=active]:text-purple-500 data-[state=active]:shadow-none data-[state=active]:border-b-purple-500 border-b-2 w-max h-full pb-3 rounded-none data-[state=active]:font-bold cursor-pointer text-base"
+                      className="px-0 pr-5 items-end text-gray-500 border-b-gray-200 data-[state=active]:text-purple-500 data-[state=active]:shadow-none data-[state=active]:border-b-purple-500 border-b-2 w-max h-full pb-3 rounded-none data-[state=active]:font-bold cursor-pointer text-base"
                     >
                       Room Pricing
                     </TabsTrigger>
                     <TabsTrigger
                       value="rooms"
-                      className="px-0 pr-3 items-end text-gray-500 border-b-gray-200 data-[state=active]:text-purple-500 data-[state=active]:shadow-none data-[state=active]:border-b-purple-500 border-b-2 w-max h-full pb-3 rounded-none data-[state=active]:font-bold cursor-pointer text-base"
+                      className="px-0 pr-5 items-end text-gray-500 border-b-gray-200 data-[state=active]:text-purple-500 data-[state=active]:shadow-none data-[state=active]:border-b-purple-500 border-b-2 w-max h-full pb-3 rounded-none data-[state=active]:font-bold cursor-pointer text-base"
                     >
                       Rooms
                     </TabsTrigger>
                     <TabsTrigger
                       value="total"
-                      className="px-0 pr-3 items-end text-gray-500 border-b-gray-200 data-[state=active]:text-purple-500 data-[state=active]:shadow-none data-[state=active]:border-b-purple-500 border-b-2 w-max h-full pb-3 rounded-none data-[state=active]:font-bold cursor-pointer text-base"
+                      className="px-0 pr-5 items-end text-gray-500 border-b-gray-200 data-[state=active]:text-purple-500 data-[state=active]:shadow-none data-[state=active]:border-b-purple-500 border-b-2 w-max h-full pb-3 rounded-none data-[state=active]:font-bold cursor-pointer text-base"
                     >
                       Total
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="summary" className="border rounded-xl">
+                  <ScrollArea className="h-64 ">
+
                     <Table>
                       <TableBody>
                         <TableRow>
@@ -674,6 +687,24 @@ export default function NewReservationPage() {
                           </TableCell>
                         </TableRow>
 
+                        {
+                          form.watch("status") === "Tentative" && (
+                            <TableRow>
+                            <TableCell className="pl-5 text-muted-foreground">
+                              Optional Date
+                            </TableCell>
+                            <TableCell className="text-right font-bold">
+                              5/10/2024
+                            </TableCell>
+                            <TableCell className="border-r gap-0 w-10">
+                              <Button variant="ghost" size="icon">
+                                <EllipsisVertical className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                          )
+                        }
+
                         <TableRow>
                           <TableCell className="pl-5 text-muted-foreground">
                             Total Amount
@@ -689,11 +720,15 @@ export default function NewReservationPage() {
                         </TableRow>
                       </TableBody>
                     </Table>
+                    </ScrollArea>
                   </TabsContent>
                   <TabsContent
                     value="room-pricing"
                     className="rounded-xl border"
                   >
+
+<ScrollArea className="h-64 ">
+
                     <Table className="rounded-xl overflow-hidden">
                       <TableHeader className="bg-gray-100/75">
                         <TableRow>
@@ -729,9 +764,13 @@ export default function NewReservationPage() {
                         ))}
                       </TableBody>
                     </Table>
+                    </ScrollArea>
                   </TabsContent>
 
                   <TabsContent value="rooms" className="rounded-xl border">
+
+                  <ScrollArea className="h-64 ">
+
                     <Table className="rounded-xl overflow-hidden">
                       <TableHeader className="bg-gray-100/75">
                         <TableRow>
@@ -761,52 +800,188 @@ export default function NewReservationPage() {
                         ))}
                       </TableBody>
                     </Table>
+                    </ScrollArea>
                   </TabsContent>
 
-                  <TabsContent value="total">Total Content here</TabsContent>
+                  <TabsContent value="total">
+                  <ScrollArea className="h-64 ">
+
+                    Total Content here
+                    
+                    </ScrollArea></TabsContent>
                 </Tabs>
               </div>
 
-              <div className="w-2/5 h-full bg-gray-200 p-10 rounded-lg space-y-7">
-                <div className="flex flex-col gap-2 w-full">
-                  <div className="flex justify-between items-center font-semibold w-full text-base">
-                    <Label className="font-bold text-base">Sub Total</Label>
-                    <span>6000</span>
+
+              <div className="w-2/5 h-full flex items-end">
+                <div className="bg-gray-200 p-10 rounded-lg space-y-7 w-full h-full">
+                  <div className="flex flex-col gap-2 w-full">
+                    <div className="flex justify-between items-center font-semibold w-full text-base">
+                      <Label className="font-bold text-base">Sub Total</Label>
+                      <span>6000</span>
+                    </div>
+                    <div className="flex justify-between items-center w-full">
+                      <Label className="font-normal">Discount</Label>
+                      <span>0.00</span>
+                    </div>
+                    <div className="flex justify-between items-center w-full">
+                      <Label className="font-normal">Adjustment</Label>
+                      <span>0.00</span>
+                    </div>
+                    <div className="flex justify-between items-center w-full">
+                      <Label className="font-normal">TCS</Label>
+                      <span>0.00</span>
+                    </div>
+                    <div className="flex justify-between items-center w-full">
+                      <Label className="font-normal">Round Off</Label>
+                      <span>0.00</span>
+                    </div>
                   </div>
-
-                  <div className="flex justify-between items-center w-full">
-                    <Label className="font-normal">Discount</Label>
-                    <span>0.00</span>
+                  <div className="flex items-center space-x-2 bg-white px-5 py-3 rounded-md">
+                    <Checkbox id="terms" />
+                    <label
+                      htmlFor="terms"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-muted-foreground"
+                    >
+                      I have confirm this data is verified
+                    </label>
                   </div>
-
-                  <div className="flex justify-between items-center w-full">
-                    <Label className="font-normal">Adjustment</Label>
-                    <span>0.00</span>
+                  <div className="flex justify-end w-full">
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button>Confirm</Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-[1000px] py-20">
+                        <div className="w-full flex gap-7">
+                          <div className="w-3/5 space-y-3">
+                            <div>
+                              <Select>
+                                <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg">
+                                  <SelectValue placeholder="Bill to" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectGroup>
+                                    {["Customer", "Company"].map(
+                                      (item, index) => (
+                                        <SelectItem key={index} value={item}>
+                                          {item}
+                                        </SelectItem>
+                                      )
+                                    )}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="flex w-full gap-2">
+                              <Input placeholder="First name" />
+                              <Input placeholder="Last name" />
+                            </div>
+                            <Input placeholder="Address" className="w-full" />
+                            <Input
+                              placeholder="Apartment, suite, etc. (optional)"
+                              className="w-full"
+                            />
+                            <div className="flex w-full gap-2">
+                              <Input placeholder="Postal Code" />
+                              <Input placeholder="City" />
+                            </div>
+                            <div className="relative">
+                              <Input placeholder="Phone" className="w-full" />
+                              <CircleHelp
+                                style={{
+                                  top: "50%",
+                                  transform: "translateY(-50%)",
+                                }}
+                                className="absolute w-4 h-4 right-2 text-muted-foreground cursor-pointer bg-white"
+                              />
+                            </div>
+                            <div className="flex items-center space-x-2 bg-white rounded-md">
+                              <Checkbox id="terms" />
+                              <label
+                                htmlFor="terms"
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-muted-foreground"
+                              >
+                                Save this information for next time
+                              </label>
+                            </div>
+                          </div>
+                          <div className="w-2/5 space-y-3">
+                            <div className="space-y-2 text-xs">
+                              <div className="flex justify-between items-center w-full">
+                                <Label className="">Total</Label>
+                                <span className="font-semibold">INR 6000</span>
+                              </div>
+                              <div className="flex justify-between items-center w-full">
+                                <Label className="text-muted-foreground">
+                                  taxes
+                                </Label>
+                                <span className="font-semibold">2226</span>
+                              </div>
+                            </div>
+                            <div className="flex justify-between items-center w-full py-2">
+                              <Label className="text-lg">Payable Amount</Label>
+                              <Input
+                                placeholder="Amount"
+                                className="rounded-none h-10 w-32 text-lg"
+                              />
+                            </div>
+                            <div className="flex flex-col gap-2">
+                              <Label className="">Payment Mode</Label>
+                              <Select>
+                                <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg">
+                                  <SelectValue placeholder="Select payment mode" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectGroup>
+                                    {["Option 1", "Option 2"].map(
+                                      (item, index) => (
+                                        <SelectItem key={index} value={item}>
+                                          {item}
+                                        </SelectItem>
+                                      )
+                                    )}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                              <Label className="">Payment Mode</Label>
+                              <Select>
+                                <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg">
+                                  <SelectValue placeholder="Select bank" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectGroup>
+                                    {["Option 1", "Option 2"].map(
+                                      (item, index) => (
+                                        <SelectItem key={index} value={item}>
+                                          {item}
+                                        </SelectItem>
+                                      )
+                                    )}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="flex justify-start gap-5">
+                              <Button type="button" className="font-normal">
+                                Sumbit order
+                              </Button>
+                              <DialogClose asChild>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  className="font-normal"
+                                >
+                                  Cancel
+                                </Button>
+                              </DialogClose>
+                            </div>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                   </div>
-
-                  <div className="flex justify-between items-center w-full">
-                    <Label className="font-normal">TCS</Label>
-                    <span>0.00</span>
-                  </div>
-
-                  <div className="flex justify-between items-center w-full">
-                    <Label className="font-normal">Round Off</Label>
-                    <span>0.00</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-2 bg-white px-5 py-3 rounded-md">
-                  <Checkbox id="terms" />
-                  <label
-                    htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-muted-foreground"
-                  >
-                    I have confirm this data is verified
-                  </label>
-                </div>
-
-                <div className="flex justify-end w-full">
-                  <Button>Confirm</Button>
                 </div>
               </div>
             </div>

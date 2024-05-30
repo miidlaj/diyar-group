@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <div className="max-w-[100vw] flex">
+        <div className="max-w-[100vw] flex font-archivo">
           <SideBar>
             <div className="">
               <Header />
