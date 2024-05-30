@@ -692,8 +692,8 @@ export default function NewReservationPage() {
                       </TableHeader>
 
                       <TableBody className="text-muted-foreground">
-                        {Array.from({ length: 5 }).map((_, index) => (
-                          <TableRow key={_ + index}>
+                        {[1, 2, 3, 4, 5].map((index) => (
+                          <TableRow key={index}>
                             <TableCell>Tue, Mar 2</TableCell>
                             <TableCell>Single</TableCell>
                             <TableCell>Regular Tariff</TableCell>
