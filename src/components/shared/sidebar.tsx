@@ -18,7 +18,7 @@ const links = [
     link: "/reservation",
     sub: [
       {
-        name: "Reservation",
+        name: "Group Reservation",
         link: "/new",
       },
       {

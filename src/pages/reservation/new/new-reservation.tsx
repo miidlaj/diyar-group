@@ -79,6 +79,7 @@ const formSchema = z.object({
   check_out: z.date({
     required_error: "Check out date is required.",
   }),
+  optional_date: z.date(),
 
   status: z.string(),
 
@@ -104,10 +105,11 @@ export default function NewReservationPage() {
       check_in: today,
       check_out: tomorrow,
       payment_mode: "",
+      optional_date: tomorrow
     },
   });
 
-  function DatePickerInput({ name }: { name: "check_in" | "check_out" }) {
+  function DatePickerInput({ name }: { name: "check_in" | "check_out" | "optional_date" }) {
     return (
       <FormField
         control={form.control}
@@ -161,7 +163,7 @@ export default function NewReservationPage() {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pb-10">
           <div className="px-4 space-y-10">
             <div className="max-w-full bg-muted  rounded-md shadow-md p-7 space-y-5">
               <div className="flex gap-3">
@@ -423,13 +425,22 @@ export default function NewReservationPage() {
                     )}
                   />
                 </div>
+
+                {
+                  form.watch("status") === "Tentative" && (
+                    <div className="flex flex-col gap-2">
+                    <Label className="font-medium text-red-600">Optional Date*</Label>
+                    <DatePickerInput name="check_out" />
+                  </div>
+                  )
+                }
               </div>
 
               <div className="flex gap-7 items-center pt-3">
                 <div className="flex gap-10">
                   <div>
                     <h1>Adult</h1>
-                    <p>Older than 12 years</p>
+                    <p className="text-muted-foreground">Older than 12 years</p>
                   </div>
                   <div className="flex gap-5 items-center">
                     <button className="text-blue-600 bg-blue-100/60 rounded-full p-1">
@@ -447,7 +458,7 @@ export default function NewReservationPage() {
                 <div className="flex gap-10">
                   <div>
                     <h1>Children</h1>
-                    <p>0 - 12 years</p>
+                    <p className="text-muted-foreground">0 - 12 years</p>
                   </div>
                   <div className="flex gap-5 items-center">
                     <button className="text-blue-600 bg-blue-100/60 rounded-full p-1">
@@ -576,7 +587,7 @@ export default function NewReservationPage() {
             </div>
 
             <div className="flex gap-5 w-full">
-              <div className="w-3/5 shadow shadow-black p-5 rounded-lg space-y-5">
+              <div className="w-3/5 shadow-md border-2 border-black/75 shadow-black/75 p-5 rounded-lg space-y-5">
                 <div>
                   <h1 className="font-bold">Summary</h1>
                   <p className="text-muted-foreground">
