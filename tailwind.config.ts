@@ -136,6 +136,7 @@ const config = {
 
       fontSize: {
         mini: "15px",
+        
         lg: "18px",
         sm: "14px",
         xs: "12px",
