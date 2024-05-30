@@ -105,11 +105,15 @@ export default function NewReservationPage() {
       check_in: today,
       check_out: tomorrow,
       payment_mode: "",
-      optional_date: tomorrow
+      optional_date: tomorrow,
     },
   });
 
-  function DatePickerInput({ name }: { name: "check_in" | "check_out" | "optional_date" }) {
+  function DatePickerInput({
+    name,
+  }: {
+    name: "check_in" | "check_out" | "optional_date";
+  }) {
     return (
       <FormField
         control={form.control}
@@ -163,7 +167,10 @@ export default function NewReservationPage() {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pb-10">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 pb-10"
+        >
           <div className="px-4 space-y-10">
             <div className="max-w-full bg-muted  rounded-md shadow-md p-7 space-y-5">
               <div className="flex gap-3">
@@ -426,14 +433,14 @@ export default function NewReservationPage() {
                   />
                 </div>
 
-                {
-                  form.watch("status") === "Tentative" && (
-                    <div className="flex flex-col gap-2">
-                    <Label className="font-medium text-red-600">Optional Date*</Label>
+                {form.watch("status") === "Tentative" && (
+                  <div className="flex flex-col gap-2">
+                    <Label className="font-medium text-red-600">
+                      Optional Date*
+                    </Label>
                     <DatePickerInput name="check_out" />
                   </div>
-                  )
-                }
+                )}
               </div>
 
               <div className="flex gap-7 items-center pt-3">
@@ -514,7 +521,7 @@ export default function NewReservationPage() {
               <ScrollArea className="h-96 w-full rounded-md relative">
                 <Table>
                   <TableHeader>
-                    <TableRow>
+                    <TableRow className="outline-none border-none no-underline">
                       <TableHead>First Name</TableHead>
                       <TableHead>Id Proof</TableHead>
                       <TableHead>Phone</TableHead>
@@ -524,7 +531,7 @@ export default function NewReservationPage() {
                       <TableHead></TableHead>
                     </TableRow>
                   </TableHeader>
-                  <TableBody className="rounded-xl border text-muted-foreground">
+                  <TableBody className="text-muted-foreground">
                     {Array.from({ length: 10 }).map((_, index) => (
                       <TableRow key={index}>
                         <TableCell className="flex flex-col gap-1 font-medium text-black">
