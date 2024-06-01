@@ -515,19 +515,17 @@ export default function NewReservationPage() {
                   <Button variant="outline">
                     <Settings className="mr-2 h-4 w-4" /> Settings
                   </Button>
-
-               
                 </div>
               </div>
 
               <div className="w-full flex justify-end gap-2">
-              <Button variant="outline" size="icon">
-                    <Search className="h-4 w-4" />
-                  </Button>
+                <Button variant="outline" size="icon">
+                  <Search className="h-4 w-4" />
+                </Button>
 
-                  <Button variant="outline">
-                    <Filter className="mr-2 h-4 w-4" /> Filter
-                  </Button>
+                <Button variant="outline">
+                  <Filter className="mr-2 h-4 w-4" /> Filter
+                </Button>
               </div>
               <ScrollArea className="h-96 w-full rounded-md relative">
                 <Table>
@@ -641,60 +639,15 @@ export default function NewReservationPage() {
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="summary" className="border rounded-xl">
-                  <ScrollArea className="h-64 ">
-
-                    <Table>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell className="pl-5 text-muted-foreground">
-                            No. Adult
-                          </TableCell>
-                          <TableCell className="text-right font-bold">
-                            10
-                          </TableCell>
-                          <TableCell className="border-r gap-0 w-10">
-                            <Button variant="ghost" size="icon">
-                              <EllipsisVertical className="h-4 w-4" />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                          <TableCell className="pl-5 text-muted-foreground">
-                            No. Days
-                          </TableCell>
-                          <TableCell className="text-right font-bold">
-                            10
-                          </TableCell>
-                          <TableCell className="border-r gap-0 w-10">
-                            <Button variant="ghost" size="icon">
-                              <EllipsisVertical className="h-4 w-4" />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                          <TableCell className="pl-5 text-muted-foreground">
-                            No. Rooms
-                          </TableCell>
-                          <TableCell className="text-right font-bold">
-                            10
-                          </TableCell>
-                          <TableCell className="border-r gap-0 w-10">
-                            <Button variant="ghost" size="icon">
-                              <EllipsisVertical className="h-4 w-4" />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-
-                        {
-                          form.watch("status") === "Tentative" && (
-                            <TableRow>
+                    <ScrollArea className="h-64 ">
+                      <Table>
+                        <TableBody>
+                          <TableRow>
                             <TableCell className="pl-5 text-muted-foreground">
-                              Optional Date
+                              No. Adult
                             </TableCell>
                             <TableCell className="text-right font-bold">
-                              5/10/2024
+                              10
                             </TableCell>
                             <TableCell className="border-r gap-0 w-10">
                               <Button variant="ghost" size="icon">
@@ -702,116 +655,152 @@ export default function NewReservationPage() {
                               </Button>
                             </TableCell>
                           </TableRow>
-                          )
-                        }
 
-                        <TableRow>
-                          <TableCell className="pl-5 text-muted-foreground">
-                            Total Amount
-                          </TableCell>
-                          <TableCell className="text-right font-bold">
-                            $ 4,000
-                          </TableCell>
-                          <TableCell className="border-r gap-0 w-10">
-                            <Button variant="ghost" size="icon">
-                              <EllipsisVertical className="h-4 w-4" />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
+                          <TableRow>
+                            <TableCell className="pl-5 text-muted-foreground">
+                              No. Days
+                            </TableCell>
+                            <TableCell className="text-right font-bold">
+                              10
+                            </TableCell>
+                            <TableCell className="border-r gap-0 w-10">
+                              <Button variant="ghost" size="icon">
+                                <EllipsisVertical className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className="pl-5 text-muted-foreground">
+                              No. Rooms
+                            </TableCell>
+                            <TableCell className="text-right font-bold">
+                              10
+                            </TableCell>
+                            <TableCell className="border-r gap-0 w-10">
+                              <Button variant="ghost" size="icon">
+                                <EllipsisVertical className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+
+                          {form.watch("status") === "Tentative" && (
+                            <TableRow>
+                              <TableCell className="pl-5 text-muted-foreground">
+                                Optional Date
+                              </TableCell>
+                              <TableCell className="text-right font-bold">
+                                5/10/2024
+                              </TableCell>
+                              <TableCell className="border-r gap-0 w-10">
+                                <Button variant="ghost" size="icon">
+                                  <EllipsisVertical className="h-4 w-4" />
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          )}
+
+                          <TableRow>
+                            <TableCell className="pl-5 text-muted-foreground">
+                              Total Amount
+                            </TableCell>
+                            <TableCell className="text-right font-bold">
+                              $ 4,000
+                            </TableCell>
+                            <TableCell className="border-r gap-0 w-10">
+                              <Button variant="ghost" size="icon">
+                                <EllipsisVertical className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
                     </ScrollArea>
                   </TabsContent>
                   <TabsContent
                     value="room-pricing"
                     className="rounded-xl border"
                   >
+                    <ScrollArea className="h-64 ">
+                      <Table className="rounded-xl overflow-hidden">
+                        <TableHeader className="bg-gray-100/75">
+                          <TableRow>
+                            <TableHead className="w-[100px]">Date</TableHead>
+                            <TableHead>Room Type</TableHead>
+                            <TableHead>Rate Code</TableHead>
+                            <TableHead>Deal Price</TableHead>
 
-<ScrollArea className="h-64 ">
+                            <TableHead>Quantity</TableHead>
 
-                    <Table className="rounded-xl overflow-hidden">
-                      <TableHeader className="bg-gray-100/75">
-                        <TableRow>
-                          <TableHead className="w-[100px]">Date</TableHead>
-                          <TableHead>Room Type</TableHead>
-                          <TableHead>Rate Code</TableHead>
-                          <TableHead>Deal Price</TableHead>
-
-                          <TableHead>Quantity</TableHead>
-
-                          <TableHead>Total Amount</TableHead>
-                          <TableHead></TableHead>
-                        </TableRow>
-                      </TableHeader>
-
-                      <TableBody className="text-muted-foreground">
-                        {[1, 2, 3, 4, 5].map((index) => (
-                          <TableRow key={index}>
-                            <TableCell>Tue, Mar 2</TableCell>
-                            <TableCell>Single</TableCell>
-                            <TableCell>Regular Tariff</TableCell>
-                            <TableCell>$ 1200</TableCell>
-                            <TableCell>1</TableCell>
-                            <TableCell className="font-medium text-black">
-                              $ 1200
-                            </TableCell>
-                            <TableCell className="border-r gap-0 w-10">
-                              <Button variant="ghost" size="icon">
-                                <EllipsisVertical className="h-4 w-4" />
-                              </Button>
-                            </TableCell>
+                            <TableHead>Total Amount</TableHead>
+                            <TableHead></TableHead>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                        </TableHeader>
+
+                        <TableBody className="text-muted-foreground">
+                          {[1, 2, 3, 4, 5].map((index) => (
+                            <TableRow key={index}>
+                              <TableCell>Tue, Mar 2</TableCell>
+                              <TableCell>Single</TableCell>
+                              <TableCell>Regular Tariff</TableCell>
+                              <TableCell>$ 1200</TableCell>
+                              <TableCell>1</TableCell>
+                              <TableCell className="font-medium text-black">
+                                $ 1200
+                              </TableCell>
+                              <TableCell className="border-r gap-0 w-10">
+                                <Button variant="ghost" size="icon">
+                                  <EllipsisVertical className="h-4 w-4" />
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
                     </ScrollArea>
                   </TabsContent>
 
                   <TabsContent value="rooms" className="rounded-xl border">
-
-                  <ScrollArea className="h-64 ">
-
-                    <Table className="rounded-xl overflow-hidden">
-                      <TableHeader className="bg-gray-100/75">
-                        <TableRow>
-                          <TableHead>Room Type</TableHead>
-                          <TableHead>No. Rooms</TableHead>
-                          <TableHead>No. Days</TableHead>
-                          <TableHead>Total Amount</TableHead>
-                          <TableHead></TableHead>
-                        </TableRow>
-                      </TableHeader>
-
-                      <TableBody className="text-muted-foreground">
-                        {[1, 2, 3, 4, 5].map((index) => (
-                          <TableRow key={index}>
-                            <TableCell>Double</TableCell>
-                            <TableCell>5</TableCell>
-                            <TableCell>10</TableCell>
-
-                            <TableCell>$ 1200</TableCell>
-
-                            <TableCell className="border-r gap-0 w-10">
-                              <Button variant="ghost" size="icon">
-                                <EllipsisVertical className="h-4 w-4" />
-                              </Button>
-                            </TableCell>
+                    <ScrollArea className="h-64 ">
+                      <Table className="rounded-xl overflow-hidden">
+                        <TableHeader className="bg-gray-100/75">
+                          <TableRow>
+                            <TableHead>Room Type</TableHead>
+                            <TableHead>No. Rooms</TableHead>
+                            <TableHead>No. Days</TableHead>
+                            <TableHead>Total Amount</TableHead>
+                            <TableHead></TableHead>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                        </TableHeader>
+
+                        <TableBody className="text-muted-foreground">
+                          {[1, 2, 3, 4, 5].map((index) => (
+                            <TableRow key={index}>
+                              <TableCell>Double</TableCell>
+                              <TableCell>5</TableCell>
+                              <TableCell>10</TableCell>
+
+                              <TableCell>$ 1200</TableCell>
+
+                              <TableCell className="border-r gap-0 w-10">
+                                <Button variant="ghost" size="icon">
+                                  <EllipsisVertical className="h-4 w-4" />
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
                     </ScrollArea>
                   </TabsContent>
 
                   <TabsContent value="total">
-                  <ScrollArea className="h-64 ">
-
-                    Total Content here
-                    
-                    </ScrollArea></TabsContent>
+                    <ScrollArea className="h-64 ">
+                      Total Content here
+                    </ScrollArea>
+                  </TabsContent>
                 </Tabs>
               </div>
-
 
               <div className="w-2/5 h-full flex items-end">
                 <div className="bg-gray-200 p-10 rounded-lg space-y-7 w-full h-full">

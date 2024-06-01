@@ -5,6 +5,7 @@ import ReservationCheckIn from "./check-in/check-in-page";
 import ReservationCheckOutPage from "./check-out/check-out-page";
 import NewReservation from "./new/new-reservation-page";
 import NewReservationPage from "./new/new-reservation";
+import GuestPage from "./guests/GuestPage";
 
 export default function ReservationPage() {
   return (
@@ -12,6 +13,8 @@ export default function ReservationPage() {
       <Routes>
         <Route path="/neww" element={<NewReservation />} />
         <Route path="/new" element={<NewReservationPage />} />
+        <Route path="/guests" element={<GuestPage />} />
+
 
         <Route path="/bookings" element={<ReservationList />} />
         <Route path="/check-in" element={<ReservationCheckIn />} />

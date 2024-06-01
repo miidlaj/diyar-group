@@ -21,6 +21,12 @@ const links = [
         name: "Group Reservation",
         link: "/new",
       },
+
+      {
+        name: "Guest",
+        link: "/guests",
+      },
+
       {
         name: "Reservation Check In",
         link: "/check-in",
