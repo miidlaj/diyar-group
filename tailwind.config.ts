@@ -128,15 +128,9 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-      fontFamily: {
-        roboto: "Roboto",
-        "overline-medium": "Inter",
-        archivo: "Archivo",
-      },
 
       fontSize: {
         mini: "15px",
-        
         lg: "18px",
         sm: "14px",
         xs: "12px",

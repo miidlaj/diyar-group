@@ -9,9 +9,9 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <div className="max-w-[100vw] flex font-archivo">
+        <div className="max-w-[100vw] flex">
           <SideBar>
-            <div className="">
+            <div>
               <Header />
 
               <Routes>

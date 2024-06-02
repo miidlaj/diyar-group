@@ -28,6 +28,21 @@ const links = [
       },
 
       {
+        name: "Rooms",
+        link: "/rooms",
+      },
+
+      {
+        name: "Rate Code",
+        link: "/rate-code",
+      },
+
+      {
+        name: "Plan",
+        link: "/plan",
+      },
+
+      {
         name: "Reservation Check In",
         link: "/check-in",
       },

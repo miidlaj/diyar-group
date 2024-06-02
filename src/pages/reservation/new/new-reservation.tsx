@@ -66,8 +66,10 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogFooter,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   adult: z.string(),
@@ -504,9 +506,67 @@ export default function NewReservationPage() {
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="icon">
-                    <Send className="h-4 w-4" />
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" size="icon">
+                        <Send className="h-4 w-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-lg py-5">
+                      <div className="flex flex-col gap-2">
+                        <h1 className="font-bold text-lg">
+                          1515151 Reservation ready to be sent
+                        </h1>
+
+                        <p className="text-black/90 text-md">
+                          Please note that in the range of June 1 to June 11,
+                          there are 195 documents pending review for submission.
+                        </p>
+                      </div>
+
+                      <div className="space-y-5">
+                        <div className="flex justify-between gap-5 items-center">
+                          <Label className="font-medium w-20">Email Id</Label>
+
+                          <Select>
+                            <SelectTrigger className="w-full rounded-lg">
+                              <SelectValue placeholder="example@gmail.com" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Emails</SelectLabel>
+                                {["admin@gmail.com", "user@gmail.com"].map(
+                                  (item, index) => (
+                                    <SelectItem key={index} value={item}>
+                                      {item}
+                                    </SelectItem>
+                                  )
+                                )}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="flex justify-between gap-5 items-start">
+                          <Label className="font-medium w-20">Message</Label>
+
+                          <Textarea rows={4} />
+                        </div>
+                      </div>
+
+                      <DialogFooter>
+                        <DialogClose>
+                          <Button variant="ghost" className="py-5">
+                            Cancel
+                          </Button>
+                        </DialogClose>
+
+                        <Button className="bg-black hover:bg-black/80 gap-2 font-normal py-5">
+                          <Send className="h-4 w-4" /> Send Now
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
 
                   <Button variant="outline">
                     <CloudDownload className="mr-2 h-4 w-4" /> Download
@@ -953,9 +1013,13 @@ export default function NewReservationPage() {
                               </Select>
                             </div>
                             <div className="flex justify-start gap-5">
-                              <Button type="button" className="font-normal">
-                                Sumbit order
-                              </Button>
+                              {form.watch("status") === "Tentative" ? (
+                                <TentativeConfirmation />
+                              ) : (
+                                <Button type="button" className="font-normal">
+                                  Sumbit order
+                                </Button>
+                              )}
                               <DialogClose asChild>
                                 <Button
                                   type="button"
@@ -981,11 +1045,133 @@ export default function NewReservationPage() {
   );
 }
 
+const TentativeConfirmation = () => {
+  return (
+    <>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button type="button" className="font-normal">
+            Sumbit order
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-xl py-5">
+          <div className="flex flex-col gap-2">
+            <h1 className="font-bold text-lg">
+              7628 Reservation Created as a Tentative{" "}
+            </h1>
+
+            <p className="text-black/90 text-md">
+              Please note that in the range of June 1 to June 11, there are 195
+              documents pending review for submission.
+            </p>
+          </div>
+
+          <div className="border rounded-xl">
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="pl-5 text-muted-foreground">
+                    No. Adult
+                  </TableCell>
+                  <TableCell className="text-right font-medium">10</TableCell>
+                  <TableCell className="border-r gap-0 w-10">
+                    <Button variant="ghost" size="icon">
+                      <EllipsisVertical className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="pl-5 text-muted-foreground">
+                    No. Days
+                  </TableCell>
+                  <TableCell className="text-right font-medium">10</TableCell>
+                  <TableCell className="border-r gap-0 w-10">
+                    <Button variant="ghost" size="icon">
+                      <EllipsisVertical className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="pl-5 text-muted-foreground">
+                    No. Rooms
+                  </TableCell>
+                  <TableCell className="text-right font-medium">10</TableCell>
+                  <TableCell className="border-r gap-0 w-10">
+                    <Button variant="ghost" size="icon">
+                      <EllipsisVertical className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="pl-5 text-muted-foreground">
+                    Optional Date
+                  </TableCell>
+                  <TableCell className="text-right font-medium">
+                    5/10/2024
+                  </TableCell>
+                  <TableCell className="border-r gap-0 w-10">
+                    <Button variant="ghost" size="icon">
+                      <EllipsisVertical className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="pl-5 text-muted-foreground">
+                    Balance Amount
+                  </TableCell>
+                  <TableCell className="text-right font-medium">
+                    $ 4,000
+                  </TableCell>
+                  <TableCell className="border-r gap-0 w-10">
+                    <Button variant="ghost" size="icon">
+                      <EllipsisVertical className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="pl-5 text-muted-foreground">
+                    Total Amount
+                  </TableCell>
+                  <TableCell className="text-right font-medium">
+                    $ 4,000
+                  </TableCell>
+                  <TableCell className="border-r gap-0 w-10">
+                    <Button variant="ghost" size="icon">
+                      <EllipsisVertical className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
+
+          <DialogFooter>
+            <DialogClose>
+              <Button variant="ghost" className="py-5">
+                Cancel
+              </Button>
+            </DialogClose>
+
+            <Button className="bg-black hover:bg-black/80 gap-2 font-normal py-5">
+              <Send className="h-4 w-4" /> Confirm
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
 const renderContent = (status: string) => {
   switch (status) {
     case "Pick and drop":
       return (
-        <Badge className="bg-green-200/50  text-green-600  items-center rounded-3xl hover:bg-green-200/50 hover:text-green-600">
+        <Badge className="bg-green-200/50  text-green-600  items-center rounded-3xl hover:bg-green-200/50 hover:text-green-600 font-normal">
           {" "}
           <span className="bg-green-600 h-[5px] w-[5px] rounded-full mr-2"></span>{" "}
           {status}
@@ -993,21 +1179,21 @@ const renderContent = (status: string) => {
       );
     case "Pick Up":
       return (
-        <Badge className="bg-yellow-200/50  text-yellow-600  items-center rounded-3xl hover:bg-yellow-200/50 hover:text-yellow-600">
+        <Badge className="bg-yellow-200/50  text-yellow-600  items-center rounded-3xl hover:bg-yellow-200/50 hover:text-yellow-600 font-normal">
           <span className="bg-yellow-600 h-[5px] w-[5px] rounded-full mr-2"></span>{" "}
           {status}
         </Badge>
       );
     case "Drop only":
       return (
-        <Badge className="bg-orange-200/50  text-orange-600  items-center rounded-3xl hover:bg-orange-200/50 hover:text-orange-600">
+        <Badge className="bg-orange-200/50  text-orange-600  items-center rounded-3xl hover:bg-orange-200/50 hover:text-orange-600 font-normal">
           <span className="bg-orange-600 h-[5px] w-[5px] rounded-full mr-2"></span>{" "}
           {status}
         </Badge>
       );
     default:
       return (
-        <Badge className="bg-green-200/50  text-green-600  items-center rounded-3xl hover:bg-green-200/50 hover:text-green-600">
+        <Badge className="bg-green-200/50  text-green-600  items-center rounded-3xl hover:bg-green-200/50 hover:text-green-600 font-normal">
           <span className="bg-green-600 h-[5px] w-[5px] rounded-full mr-2"></span>{" "}
           {status}
         </Badge>

@@ -59,19 +59,37 @@ export default function GuestPage() {
           </div>
           <div className="w-full flex justify-between items-center">
             <div className="flex gap-3">
-              <ToggleGroup type="single" defaultValue="today" className="flex gap-0 rounded-md border border-gray-300 ">
-                <ToggleGroupItem value="today" aria-label="Toggle Today" className="rounded-l-md rounded-r-none border-r border-gray-300">
+              <ToggleGroup
+                type="single"
+                defaultValue="today"
+                className="flex gap-0 rounded-md border border-gray-300 "
+              >
+                <ToggleGroupItem
+                  value="today"
+                  aria-label="Toggle Today"
+                  className="rounded-l-md rounded-r-none border-r border-gray-300"
+                >
                   Today
                 </ToggleGroupItem>
-                <ToggleGroupItem value="tomorrow" aria-label="Toggle Tomorrow" className="rounded-r-md rounded-l-none">
+                <ToggleGroupItem
+                  value="tomorrow"
+                  aria-label="Toggle Tomorrow"
+                  className="rounded-r-md rounded-l-none"
+                >
                   Tomorrow
                 </ToggleGroupItem>
               </ToggleGroup>
 
               <ToggleGroup
-          type="single" defaultValue="today" className="flex gap-0 rounded-md border border-gray-300 "
+                type="single"
+                defaultValue="today"
+                className="flex gap-0 rounded-md border border-gray-300 "
               >
-                <ToggleGroupItem value="check-in" aria-label="Toggle check in" className="rounded-l-md rounded-r-none border-r border-gray-300">
+                <ToggleGroupItem
+                  value="check-in"
+                  aria-label="Toggle check in"
+                  className="rounded-l-md rounded-r-none border-r border-gray-300"
+                >
                   Check In
                 </ToggleGroupItem>
                 <ToggleGroupItem
@@ -272,7 +290,7 @@ const renderContent = (status: string) => {
   switch (status) {
     case "Accepted":
       return (
-        <Badge className="bg-green-200/50  text-green-600  items-center rounded-3xl hover:bg-green-200/50 hover:text-green-600">
+        <Badge className="bg-green-200/50  text-green-600  items-center rounded-3xl hover:bg-green-200/50 hover:text-green-600 font-normal">
           {" "}
           <span className="bg-green-600 h-[5px] w-[5px] rounded-full mr-2"></span>{" "}
           {status}
@@ -280,21 +298,21 @@ const renderContent = (status: string) => {
       );
     case "Tentative":
       return (
-        <Badge className="bg-yellow-200/50  text-yellow-600  items-center rounded-3xl hover:bg-yellow-200/50 hover:text-yellow-600">
+        <Badge className="bg-yellow-200/50  text-yellow-600  items-center rounded-3xl hover:bg-yellow-200/50 hover:text-yellow-600 font-normal">
           <span className="bg-yellow-600 h-[5px] w-[5px] rounded-full mr-2"></span>{" "}
           {status}
         </Badge>
       );
     case "Rejected":
       return (
-        <Badge className="bg-red-200/50  text-red-600  items-center rounded-3xl hover:bg-red-200/50 hover:text-red-600">
+        <Badge className="bg-red-200/50  text-red-600  items-center rounded-3xl hover:bg-red-200/50 hover:text-red-600 font-normal">
           <span className="bg-red-600 h-[5px] w-[5px] rounded-full mr-2"></span>{" "}
           {status}
         </Badge>
       );
     default:
       return (
-        <Badge className="bg-gray-200/50  text-gray-600  items-center rounded-3xl hover:bg-gray-200/50 hover:text-gray-600">
+        <Badge className="bg-gray-200/50  text-gray-600  items-center rounded-3xl hover:bg-gray-200/50 hover:text-gray-600 font-normal">
           <span className="bg-gray-600 h-[5px] w-[5px] rounded-full mr-2"></span>{" "}
           {status}
         </Badge>
