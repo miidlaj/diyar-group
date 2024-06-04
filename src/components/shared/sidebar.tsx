@@ -43,6 +43,11 @@ const links = [
       },
 
       {
+        name: "Front desk",
+        link: "/front-desk",
+      },
+
+      {
         name: "Reservation Check In",
         link: "/check-in",
       },

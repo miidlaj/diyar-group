@@ -9,6 +9,7 @@ import GuestPage from "./guests/GuestPage";
 import RoomsPage from "./rooms/rooms-page";
 import RateCodePage from "./rate-code/rate-code-page";
 import PlanPage from "./plan/PlanPage";
+import FrontDeskPage from "./front-desk/front-desk-page";
 
 export default function ReservationPage() {
   return (
@@ -20,6 +21,7 @@ export default function ReservationPage() {
         <Route path="/rooms" element={<RoomsPage />} />
         <Route path="/rate-code" element={<RateCodePage />} />
         <Route path="/plan" element={<PlanPage />} />
+        <Route path="/front-desk" element={<FrontDeskPage />} />
 
         <Route path="/bookings" element={<ReservationList />} />
         <Route path="/check-in" element={<ReservationCheckIn />} />
