@@ -317,9 +317,12 @@ export default function FrontDeskPage() {
               ))}
             </TableRow>
           </TableHeader>
-          <TableBody >
+          <TableBody>
             <div className="flex justify-start">
-              <Button variant={showESR ? "ghost" : 'default'} onClick={() => setShowESR(!showESR)}>
+              <Button
+                variant={showESR ? "ghost" : "default"}
+                onClick={() => setShowESR(!showESR)}
+              >
                 ESR{" "}
                 <CaretSortIcon
                   className={`size-4 transform transition ease-in-out duration-300 ${
@@ -328,7 +331,6 @@ export default function FrontDeskPage() {
                 />
               </Button>
             </div>
-
 
             {showESR && (
               <>
@@ -362,16 +364,19 @@ export default function FrontDeskPage() {
                             <TableCell
                               key={colIndex}
                               colSpan={booking.colSpan}
-                              onMouseDown={() =>
-                                handleMouseDown(rowIndex, colIndex)
-                              }
-                              onMouseUp={() =>
-                                handleMouseUp(rowIndex, colIndex)
-                              }
-                              onMouseOver={() =>
-                                handleMouseOver(rowIndex, colIndex)
-                              }
-                              className={`bg-${booking.color}-100/50 text-${booking.color}-400 py-3 rounded-xl`}
+                              className={` py-3 rounded-xl ${
+                                booking.color === "orange" &&
+                                "bg-orange-100/50 text-orange-400"
+                              } ${
+                                booking.color === "red" &&
+                                "bg-red-100/50 text-red-400"
+                              } ${
+                                booking.color === "blue" &&
+                                "bg-blue-100/50 text-blue-400"
+                              } ${
+                                booking.color === "green" &&
+                                "bg-green-100/50 text-green-400"
+                              }`}
                             >
                               <HoverCard>
                                 <HoverCardTrigger asChild>
