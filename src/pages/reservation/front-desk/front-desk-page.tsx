@@ -1,4 +1,9 @@
 import { Button } from "@/components/ui/button";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -9,192 +14,403 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Search } from "lucide-react";
+import { useState } from "react";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { CaretSortIcon } from "@radix-ui/react-icons";
+
+interface CellPosition {
+  rowIndex: number;
+  colIndex: number;
+}
+
+interface Booking {
+  name: string;
+  colSpan: number;
+  color: string;
+  start: number;
+}
+
+const months = [
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+  "Jan",
+  "Feb",
+  "Mar",
+];
+const days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const bookings: Booking[] = [
+  { name: "Lewis", colSpan: 3, color: "orange", start: 2 },
+  { name: "Andrew", colSpan: 3, color: "red", start: 6 },
+  { name: "Mark", colSpan: 3, color: "blue", start: 2 },
+  { name: "Tate", colSpan: 3, color: "blue", start: 0 },
+  { name: "Andrew", colSpan: 3, color: "blue", start: 7 },
+  { name: "Manson", colSpan: 3, color: "orange", start: 3 },
+  { name: "Bruce", colSpan: 3, color: "orange", start: 1 },
+  { name: "Mave", colSpan: 3, color: "green", start: 6 },
+];
+
+const HoverContent: React.FC = () => {
+  const event = {
+    name: "Business Trip",
+    startDate: "2024-05-11",
+    endDate: "2024-05-13",
+    bookingNumber: 8,
+    details: {
+      reserveNo: "R7890",
+      arrival: "2024-05-11",
+      company: "OPQ Inc",
+      rateCode: "R890",
+      roomRate: 140,
+      bookingDate: "2024-05-09",
+      adult: 2,
+      totCharges: 280,
+      departure: "2024-05-13",
+      plan: "Standard",
+      child: 0,
+      paid: 280,
+    },
+    maintenance: false,
+  };
+
+  return (
+    <div className="mx-auto text-muted-foreground">
+      <div className="font-semibold text-sm mb-4 border-b pb-2">
+        {event.name} | Lewis
+      </div>
+      <div className="grid grid-cols-2 gap-x-8 text-xs">
+        <div className="float-left">
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <b>Reserve No:</b>
+                </td>
+                <td>{event.details?.reserveNo}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Arrival:</b>
+                </td>
+                <td>{event.details?.arrival}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Company:</b>
+                </td>
+                <td>{event.details?.company}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Rate Code:</b>
+                </td>
+                <td>{event.details?.rateCode}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Room Rate:</b>
+                </td>
+                <td>{event.details?.roomRate}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Booking Date:</b>
+                </td>
+                <td>{event.details?.bookingDate}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="float-right">
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <b>Adult:</b>
+                </td>
+                <td>{event.details?.adult}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Child:</b>
+                </td>
+                <td>{event.details?.child}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Total Charges:</b>
+                </td>
+                <td>{event.details?.totCharges}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Departure:</b>
+                </td>
+                <td>{event.details?.departure}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Plan:</b>
+                </td>
+                <td>{event.details?.plan}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Paid:</b>
+                </td>
+                <td>{event.details?.paid}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function FrontDeskPage() {
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [startCell, setStartCell] = useState<CellPosition | null>(null);
+  const [endCell, setEndCell] = useState<CellPosition | null>(null);
+  const [openBookingDrawer, setOpenBookingDrawer] = useState(false);
+  const [showESR, setShowESR] = useState(true);
+
+  const handleMouseDown = (rowIndex: number, colIndex: number): void => {
+    setIsDragging(true);
+    setStartCell({ rowIndex, colIndex });
+  };
+
+  const handleMouseUp = (rowIndex: number, colIndex: number): void => {
+    setIsDragging(false);
+    setEndCell({ rowIndex, colIndex });
+    if (startCell) {
+      const selectedCells = getSelectedCells(startCell, { rowIndex, colIndex });
+      console.log("Selected cells:", selectedCells);
+      setOpenBookingDrawer(true);
+    }
+  };
+
+  const handleMouseOver = (rowIndex: number, colIndex: number): void => {
+    if (isDragging) {
+      setEndCell({ rowIndex, colIndex });
+    }
+  };
+
+  const getSelectedCells = (
+    start: CellPosition,
+    end: CellPosition
+  ): CellPosition[] => {
+    const cells: CellPosition[] = [];
+    const startRow = Math.min(start.rowIndex, end.rowIndex);
+    const endRow = Math.max(start.rowIndex, end.rowIndex);
+    const startCol = Math.min(start.colIndex, end.colIndex);
+    const endCol = Math.max(start.colIndex, end.colIndex);
+
+    for (let rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
+      for (let colIndex = startCol; colIndex <= endCol; colIndex++) {
+        cells.push({ rowIndex, colIndex });
+      }
+    }
+    return cells;
+  };
+
+  const handleOpenChangeofBookingDrawer = (open: boolean) => {
+    if (!open) {
+      setStartCell(null);
+      setEndCell(null);
+      setIsDragging(false);
+    }
+
+    setOpenBookingDrawer(open);
+  };
   return (
     <>
+      <Dialog
+        open={openBookingDrawer}
+        onOpenChange={handleOpenChangeofBookingDrawer}
+      >
+        <DialogContent className="w-64">
+          <DialogHeader>
+            <DialogTitle>Room No: 103</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-3 flex flex-col">
+            <Button>Walkin</Button>
+            <Button>Quick Reservation</Button>
+            <Button>Block</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <div className="mx-10 space-y-7">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Button className="bg-orange-100/50 text-orange-400 hover:bg-orange-100">
-              Due in
-            </Button>
-
-            <Button className="bg-blue-100/50 text-blue-400 hover:bg-blue-100">
-              Checked out
-            </Button>
-
-            <Button className="bg-red-100/50 text-red-400 hover:bg-red-100">
-              Due out
-            </Button>
-
-            <Button className="bg-green-100/50 text-green-400 hover:bg-green-100">
-              Checked in
-            </Button>
+            {["Due in", "Checked out", "Due out", "Checked in"].map(
+              (status, index) => {
+                const colors = ["orange", "blue", "red", "green"];
+                return (
+                  <Button
+                    key={index}
+                    className={`bg-${colors[index]}-100/50 text-${colors[index]}-400 hover:bg-${colors[index]}-100`}
+                  >
+                    {status}
+                  </Button>
+                );
+              }
+            )}
           </div>
 
           <div className="flex gap-3 items-center">
-
             <div className="relative text-muted-foreground">
-                <Input placeholder="Search by room number" className="pl-8 w-64"/>
-
-                <Search   style={{
-                                  top: "50%",
-                                  transform: "translateY(-50%)",
-                                }} className="absolute left-2 h-4 w-4" />
+              <Input
+                placeholder="Search by room number"
+                className="pl-8 w-64"
+              />
+              <Search
+                style={{ top: "50%", transform: "translateY(-50%)" }}
+                className="absolute left-2 h-4 w-4"
+              />
             </div>
-
-<Button className="font-normal">Create booking</Button>
+            <Button className="font-normal">Create booking</Button>
           </div>
         </div>
+
         <div className="flex justify-between text-sm border-b">
-          {[
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-            "Jan",
-            "Feb",
-            "Mar",
-          ].map((item, index) => (
+          {months.map((month, index) => (
             <TableHead key={index}>
-              {item === "Feb" ? (
+              {month === "Feb" ? (
                 <span className="rounded-full border-blue-400 border-2 bg-blue-100/50 hover:bg-blue-100 hover:text-blue-600 text-blue-400 px-3 py-2">
-                  {item}
+                  {month}
                 </span>
               ) : (
-                <span className="px-3 py-2">{item}</span>
+                <span className="px-3 py-2">{month}</span>
               )}
             </TableHead>
           ))}
         </div>
-        <Table>
+
+        <Table className="mb-5">
           <TableHeader>
             <TableRow className="border-none">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(
-                (item: number, index) => (
-                  <TableHead key={index}>
-                    {item === 10 ? (
-                      <span className="rounded-full border-blue-400 border-2 bg-blue-100/50 hover:bg-blue-100 hover:text-blue-600 text-blue-400 px-3 py-2">
-                        {item}
-                      </span>
-                    ) : (
-                      <span className="px-3 py-2">{item}</span>
-                    )}
-                  </TableHead>
-                )
-              )}
+              <TableHead className="w-24 font-semibold">Room No.</TableHead>
+              {days.map((day, index) => (
+                <TableHead key={index}>
+                  {day === 10 ? (
+                    <span className="rounded-full border-blue-400 border-2 bg-blue-100/50 hover:bg-blue-100 hover:text-blue-600 text-blue-400 px-3 py-2">
+                      {day}
+                    </span>
+                  ) : (
+                    <span className="px-3 py-2">{day}</span>
+                  )}
+                </TableHead>
+              ))}
             </TableRow>
           </TableHeader>
-          <TableBody>
-            <TableRow className="border-none">
-              <TableCell></TableCell>
-            </TableRow>
-            <TableRow className="border-none">
-              <TableCell></TableCell>
-              <TableCell
-                className="bg-orange-100/50 text-orange-400 py-3 rounded-xl"
-                colSpan={3}
-              >
-                Lewis
-              </TableCell>
+          <TableBody >
+            <div className="flex justify-start">
+              <Button variant={showESR ? "ghost" : 'default'} onClick={() => setShowESR(!showESR)}>
+                ESR{" "}
+                <CaretSortIcon
+                  className={`size-4 transform transition ease-in-out duration-300 ${
+                    showESR ? "-rotate-180" : "rotate-180"
+                  }`}
+                />
+              </Button>
+            </div>
 
-              <TableCell colSpan={3}></TableCell>
 
-              <TableCell
-                className="bg-red-100/50 text-red-400 py-3 rounded-xl"
-                colSpan={3}
-              >
-                Andrew
-              </TableCell>
-            </TableRow>
+            {showESR && (
+              <>
+                {bookings.map((booking, rowIndex) => (
+                  <>
+                    <TableRow className="border-none">
+                      <TableCell></TableCell>
+                    </TableRow>
+                    <TableRow key={rowIndex} className="border-none">
+                      <TableCell className="w-24 font-semibold">
+                        {100 + rowIndex}
+                      </TableCell>
 
-            <TableRow className="border-none">
-              <TableCell></TableCell>
-            </TableRow>
+                      {days.map((_, colIndex) => {
+                        const isBookingCell =
+                          colIndex >= booking.start &&
+                          colIndex < booking.start + booking.colSpan;
 
-            <TableRow className="border-none">
-              <TableCell colSpan={2}></TableCell>
-              <TableCell
-                className="bg-blue-100/50 text-blue-400 py-3 rounded-xl"
-                colSpan={3}
-              >
-                Mark
-              </TableCell>
+                        const isSelectedCell =
+                          startCell &&
+                          endCell &&
+                          startCell.rowIndex === rowIndex &&
+                          startCell.rowIndex === endCell.rowIndex &&
+                          colIndex >=
+                            Math.min(startCell.colIndex, endCell.colIndex) &&
+                          colIndex <=
+                            Math.max(startCell.colIndex, endCell.colIndex);
 
-              <TableCell colSpan={7}></TableCell>
-            </TableRow>
-
-            <TableRow className="border-none">
-              <TableCell></TableCell>
-            </TableRow>
-
-            <TableRow className="border-none">
-              <TableCell
-                className="bg-blue-100/50 text-blue-400 py-3 rounded-xl"
-                colSpan={3}
-              >
-                Tate
-              </TableCell>
-
-              <TableCell colSpan={4}></TableCell>
-
-              <TableCell
-                className="bg-blue-100/50 text-blue-400 py-3 rounded-xl"
-                colSpan={3}
-              >
-                Andrew
-              </TableCell>
-
-              <TableCell colSpan={2}></TableCell>
-            </TableRow>
-
-            <TableRow className="border-none">
-              <TableCell></TableCell>
-            </TableRow>
-
-            <TableRow className="border-none">
-              <TableCell colSpan={3}></TableCell>
-              <TableCell
-                className="bg-orange-100/50 text-orange-400 py-3 rounded-xl"
-                colSpan={3}
-              >
-                Manson
-              </TableCell>
-
-              <TableCell colSpan={6}></TableCell>
-            </TableRow>
-
-            <TableRow className="border-none">
-              <TableCell></TableCell>
-            </TableRow>
-
-            <TableRow className="border-none">
-              <TableCell></TableCell>
-              <TableCell
-                className="bg-orange-100/50 text-orange-400 py-3 rounded-xl"
-                colSpan={3}
-              >
-                Bruce
-              </TableCell>
-
-              <TableCell colSpan={3}></TableCell>
-
-              <TableCell
-                className="bg-green-100/50 text-green-400 py-3 rounded-xl"
-                colSpan={3}
-              >
-                Mave
-              </TableCell>
-            </TableRow>
-
-            <TableRow className="border-none">
-              <TableCell></TableCell>
-            </TableRow>
+                        if (isBookingCell && colIndex === booking.start) {
+                          return (
+                            <TableCell
+                              key={colIndex}
+                              colSpan={booking.colSpan}
+                              onMouseDown={() =>
+                                handleMouseDown(rowIndex, colIndex)
+                              }
+                              onMouseUp={() =>
+                                handleMouseUp(rowIndex, colIndex)
+                              }
+                              onMouseOver={() =>
+                                handleMouseOver(rowIndex, colIndex)
+                              }
+                              className={`bg-${booking.color}-100/50 text-${booking.color}-400 py-3 rounded-xl`}
+                            >
+                              <HoverCard>
+                                <HoverCardTrigger asChild>
+                                  <div>{booking.name}</div>
+                                </HoverCardTrigger>
+                                <HoverCardContent className="w-[450px]">
+                                  <HoverContent />
+                                </HoverCardContent>
+                              </HoverCard>
+                            </TableCell>
+                          );
+                        } else if (!isBookingCell) {
+                          return (
+                            <TableCell
+                              key={colIndex}
+                              onMouseDown={() =>
+                                handleMouseDown(rowIndex, colIndex)
+                              }
+                              onMouseUp={() =>
+                                handleMouseUp(rowIndex, colIndex)
+                              }
+                              onMouseOver={() =>
+                                handleMouseOver(rowIndex, colIndex)
+                              }
+                              className={
+                                isSelectedCell
+                                  ? "bg-green-100 py-3 rounded-xl"
+                                  : "bg-neutral-50 py-3 rounded-xl ring-1 ring-neutral-200"
+                              }
+                            />
+                          );
+                        }
+                        return null;
+                      })}
+                    </TableRow>
+                  </>
+                ))}
+              </>
+            )}
           </TableBody>
         </Table>
       </div>
