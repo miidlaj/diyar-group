@@ -364,7 +364,7 @@ export default function FrontDeskPage() {
                             <TableCell
                               key={colIndex}
                               colSpan={booking.colSpan}
-                              className={` py-3 rounded-xl ${
+                              className={` py-3 rounded-xl cursor-pointer ${
                                 booking.color === "orange" &&
                                 "bg-orange-100/50 text-orange-400"
                               } ${
@@ -403,7 +403,7 @@ export default function FrontDeskPage() {
                               }
                               className={
                                 isSelectedCell
-                                  ? "bg-green-100 py-3 rounded-xl"
+                                  ? "bg-green-100 py-3 rounded-xl cursor-move"
                                   : "bg-neutral-50 py-3 rounded-xl ring-1 ring-neutral-200"
                               }
                             />
