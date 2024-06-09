@@ -403,9 +403,11 @@ export default function FrontDeskPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
+
+            
             <div className="flex justify-start">
               <Button
-                variant={showESR ? "ghost" : "default"}
+                variant={showESR ? "ghost" : "link"}
                 onClick={() => setShowESR(!showESR)}
               >
                 ESR{" "}
