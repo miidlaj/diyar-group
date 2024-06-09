@@ -13,8 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Search } from "lucide-react";
-import { useState } from "react";
+import { CalendarIcon, Filter, RefreshCcw, Search } from "lucide-react";
+import React, { useState } from "react";
 
 import {
   Dialog,
@@ -23,6 +23,25 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { CaretSortIcon } from "@radix-ui/react-icons";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { HoverColorValues } from "./components/HoverColorValues";
 
 interface CellPosition {
   rowIndex: number;
@@ -234,6 +253,9 @@ export default function FrontDeskPage() {
 
     setOpenBookingDrawer(open);
   };
+
+  const [date, setDate] = React.useState<Date>();
+
   return (
     <>
       <Dialog
@@ -284,6 +306,69 @@ export default function FrontDeskPage() {
             </div>
             <Button className="font-normal">Create booking</Button>
           </div>
+        </div>
+
+        <div className="text-muted-foreground flex justify-between">
+          <div className="flex items-center gap-2">
+            <Label className="font-medium">Room Type</Label>
+
+            <Select defaultValue="ALL">
+              <SelectTrigger className="bg-transparent w-[200px] border-gray-400/75 rounded-lg">
+                <SelectValue placeholder="Select room type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>types</SelectLabel>
+                  {["ALL", "VIP", "TEST"].map((item, index) => (
+                    <SelectItem key={index} value={item}>
+                      {item}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            <Button variant={"outline"} size={"icon"}>
+              <Search className="size-4" />
+            </Button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Label className="font-medium">From</Label>
+
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-[240px] justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date ? format(date, "PPP") : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+
+            <Button variant={"outline"} size={"icon"}>
+              <RefreshCcw className="size-4" />
+            </Button>
+
+            <Button variant={"outline"} size={"icon"}>
+              <Filter className="size-4" />
+            </Button>
+          </div>
+
+          <HoverColorValues />
         </div>
 
         <div className="flex justify-between text-sm border-b">
