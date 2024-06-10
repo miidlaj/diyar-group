@@ -4,6 +4,7 @@ import { Calendar } from "@/components/ui/calendar";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
@@ -46,6 +47,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import {
+  BookOpenText,
   CalendarIcon,
   CircleHelp,
   CloudDownload,
@@ -243,13 +245,11 @@ export default function NewReservationPage() {
                           <SelectContent>
                             <SelectGroup>
                               <SelectLabel>Packages</SelectLabel>
-                              {["Confirmed", "Tentative", "Waitlist"].map(
-                                (item, index) => (
-                                  <SelectItem key={index} value={item}>
-                                    {item}
-                                  </SelectItem>
-                                )
-                              )}
+                              {[].map((item, index) => (
+                                <SelectItem key={index} value={item}>
+                                  {item}
+                                </SelectItem>
+                              ))}
                             </SelectGroup>
                           </SelectContent>
                         </Select>
@@ -279,13 +279,11 @@ export default function NewReservationPage() {
                           <SelectContent>
                             <SelectGroup>
                               <SelectLabel>Sources</SelectLabel>
-                              {["Confirmed", "Tentative", "Waitlist"].map(
-                                (item, index) => (
-                                  <SelectItem key={index} value={item}>
-                                    {item}
-                                  </SelectItem>
-                                )
-                              )}
+                              {[].map((item, index) => (
+                                <SelectItem key={index} value={item}>
+                                  {item}
+                                </SelectItem>
+                              ))}
                             </SelectGroup>
                           </SelectContent>
                         </Select>
@@ -317,13 +315,11 @@ export default function NewReservationPage() {
                           <SelectContent>
                             <SelectGroup>
                               <SelectLabel>Compnaies</SelectLabel>
-                              {["Confirmed", "Tentative", "Waitlist"].map(
-                                (item, index) => (
-                                  <SelectItem key={index} value={item}>
-                                    {item}
-                                  </SelectItem>
-                                )
-                              )}
+                              {[].map((item, index) => (
+                                <SelectItem key={index} value={item}>
+                                  {item}
+                                </SelectItem>
+                              ))}
                             </SelectGroup>
                           </SelectContent>
                         </Select>
@@ -353,13 +349,11 @@ export default function NewReservationPage() {
                           <SelectContent>
                             <SelectGroup>
                               <SelectLabel>Agents</SelectLabel>
-                              {["Confirmed", "Tentative", "Waitlist"].map(
-                                (item, index) => (
-                                  <SelectItem key={index} value={item}>
-                                    {item}
-                                  </SelectItem>
-                                )
-                              )}
+                              {[].map((item, index) => (
+                                <SelectItem key={index} value={item}>
+                                  {item}
+                                </SelectItem>
+                              ))}
                             </SelectGroup>
                           </SelectContent>
                         </Select>
@@ -389,13 +383,11 @@ export default function NewReservationPage() {
                           <SelectContent>
                             <SelectGroup>
                               <SelectLabel>Segments</SelectLabel>
-                              {["Confirmed", "Tentative", "Waitlist"].map(
-                                (item, index) => (
-                                  <SelectItem key={index} value={item}>
-                                    {item}
-                                  </SelectItem>
-                                )
-                              )}
+                              {[].map((item, index) => (
+                                <SelectItem key={index} value={item}>
+                                  {item}
+                                </SelectItem>
+                              ))}
                             </SelectGroup>
                           </SelectContent>
                         </Select>
@@ -595,6 +587,7 @@ export default function NewReservationPage() {
                       <TableHead>Id Proof</TableHead>
                       <TableHead>Phone</TableHead>
                       <TableHead>Room Type</TableHead>
+                      <TableHead>Room No</TableHead>
                       <TableHead>Rate Code</TableHead>
                       <TableHead className="w-44">Pick and Drop</TableHead>
                       <TableHead className="w-10"></TableHead>
@@ -616,6 +609,8 @@ export default function NewReservationPage() {
                         <TableCell className="">
                           {form.getValues("room_type")}
                         </TableCell>
+
+                        <TableCell>F1-120</TableCell>
 
                         <TableCell>Regular Tariff</TableCell>
 
@@ -651,9 +646,22 @@ export default function NewReservationPage() {
                         </TableCell>
 
                         <TableCell className="w-10">
-                          <Button variant="ghost" size="icon">
-                            <EllipsisVertical className="h-4 w-4" />
-                          </Button>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger>
+                              <Button variant="ghost" size="icon">
+                                <EllipsisVertical className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem>Check in</DropdownMenuItem>
+                              <DropdownMenuItem>Check out</DropdownMenuItem>
+                              <DropdownMenuItem className="flex gap-2 items-center">
+                                Ledger <BookOpenText className="size-4" />
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -699,7 +707,7 @@ export default function NewReservationPage() {
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="summary" className="border rounded-xl">
-                    <ScrollArea className="h-64 ">
+                    <ScrollArea className="h-56 ">
                       <Table>
                         <TableBody>
                           <TableRow>
@@ -766,6 +774,20 @@ export default function NewReservationPage() {
                             </TableCell>
                             <TableCell className="text-right font-bold">
                               $ 4,000
+                            </TableCell>
+                            <TableCell className="border-r gap-0 w-10">
+                              <Button variant="ghost" size="icon">
+                                <EllipsisVertical className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+
+                          <TableRow>
+                            <TableCell className="pl-5 text-muted-foreground">
+                              Advance Amount
+                            </TableCell>
+                            <TableCell className="text-right font-bold">
+                              $ 200
                             </TableCell>
                             <TableCell className="border-r gap-0 w-10">
                               <Button variant="ghost" size="icon">
@@ -982,13 +1004,16 @@ export default function NewReservationPage() {
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectGroup>
-                                    {["Option 1", "Option 2"].map(
-                                      (item, index) => (
-                                        <SelectItem key={index} value={item}>
-                                          {item}
-                                        </SelectItem>
-                                      )
-                                    )}
+                                    {[
+                                      "Card",
+                                      "Net Banking",
+                                      "Cash",
+                                      "Cheque",
+                                    ].map((item, index) => (
+                                      <SelectItem key={index} value={item}>
+                                        {item}
+                                      </SelectItem>
+                                    ))}
                                   </SelectGroup>
                                 </SelectContent>
                               </Select>
@@ -1001,17 +1026,29 @@ export default function NewReservationPage() {
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectGroup>
-                                    {["Option 1", "Option 2"].map(
-                                      (item, index) => (
-                                        <SelectItem key={index} value={item}>
-                                          {item}
-                                        </SelectItem>
-                                      )
-                                    )}
+                                    {[
+                                      "Card",
+                                      "Net Banking",
+                                      "Cash",
+                                      "Cheque",
+                                    ].map((item, index) => (
+                                      <SelectItem key={index} value={item}>
+                                        {item}
+                                      </SelectItem>
+                                    ))}
                                   </SelectGroup>
                                 </SelectContent>
                               </Select>
                             </div>
+
+                            <div className="flex flex-col gap-2">
+                              <Label className="">Remarks</Label>
+                              <Textarea
+                                rows={4}
+                                className="bg-transparent w-full border-gray-400/75 rounded-lg"
+                              />
+                            </div>
+
                             <div className="flex justify-start gap-5">
                               {form.watch("status") === "Tentative" ? (
                                 <TentativeConfirmation />

@@ -6,12 +6,7 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -21,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import RoomSearch from "./components/search-room";
 
 const formSchema = z.object({
   adult: z.string(),
@@ -76,8 +72,18 @@ const ReservationCheckOutPage: FunctionComponent = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="mx-7 space-y-10 pb-10">
-            <div className="flex justify-between ">
-              <span className="text-center text-sm w-full">Firady, November 18, 2024</span>
+            <div className="flex justify-center">
+              <div className="flex gap-5 items-center">
+              <Label className="text-muted-foreground">Room No.: </Label>
+              <RoomSearch />
+              <Button>Go</Button>
+              </div>
+           
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm w-full flex justify-center">
+                Firady, November 18, 2024
+              </span>
 
               <Button className="">Create booking</Button>
             </div>

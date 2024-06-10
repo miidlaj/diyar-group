@@ -403,8 +403,6 @@ export default function FrontDeskPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-
-            
             <div className="flex justify-start">
               <Button
                 variant={showESR ? "ghost" : "link"}
