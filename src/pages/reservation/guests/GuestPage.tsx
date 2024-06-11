@@ -1,6 +1,14 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -26,7 +34,9 @@ import {
   Filter,
   EllipsisVertical,
   Search,
+  BookOpenText,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function GuestPage() {
   return (
@@ -150,9 +160,22 @@ export default function GuestPage() {
                       {renderContent(item.status)}
                     </TableCell>
                     <TableCell className="w-10">
-                      <Button variant="ghost" size="icon">
-                        <EllipsisVertical className="h-4 w-4" />
-                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger>
+                          <Button variant="ghost" size="icon">
+                            <EllipsisVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem><Link to="/reservation/check-in">Check in</Link></DropdownMenuItem>
+                          <DropdownMenuItem>Check out</DropdownMenuItem>
+                          <DropdownMenuItem className="flex gap-2 items-center">
+                            Ledger <BookOpenText className="size-4" />
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </TableCell>
                   </TableRow>
                 ))}
