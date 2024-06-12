@@ -10,7 +10,7 @@ import { Form, FormDescription } from "@/components/ui/form";
 import RoomSearch from "./components/search-room";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { CircleX, CreditCard, EllipsisVertical, Plus } from "lucide-react";
+import { CircleX, CreditCard, Plus } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -203,9 +203,9 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                     <TableHead>Deal Price</TableHead>
 
                     <TableHead>Quantity</TableHead>
+                    <TableHead>Tax</TableHead>
 
                     <TableHead>Total Amount</TableHead>
-                    <TableHead></TableHead>
                   </TableRow>
                 </TableHeader>
 
@@ -218,12 +218,10 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                       <TableCell>$ 1200</TableCell>
                       <TableCell>1</TableCell>
                       <TableCell className="font-medium text-black">
-                        $ 1200
+                        $ 25
                       </TableCell>
-                      <TableCell className="border-r gap-0 w-10">
-                        <Button variant="ghost" size="icon">
-                          <EllipsisVertical className="h-4 w-4" />
-                        </Button>
+                      <TableCell className="font-medium text-black">
+                        $ 1200
                       </TableCell>
                     </TableRow>
                   ))}
@@ -248,8 +246,8 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                           Type
                         </span>
                         <Select defaultValue="Regular Customer">
-                        <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
-                        {" "}
+                          <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
+                            {" "}
                             <SelectValue placeholder="Select type" />
                           </SelectTrigger>
                           <SelectContent>
@@ -307,8 +305,8 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                           Type
                         </span>
                         <Select defaultValue="Friend">
-                        <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
-                        {" "}
+                          <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
+                            {" "}
                             <SelectValue placeholder="Select type" />
                           </SelectTrigger>
                           <SelectContent>
@@ -491,11 +489,9 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                     </TableBody>
                   </Table>
 
-
                   <div className="flex justify-end mx-3">
-                    <Button variant={"outline" } size={"icon"}>
-
-                    <Plus className="size-4" />
+                    <Button variant={"outline"} size={"icon"}>
+                      <Plus className="size-4" />
                     </Button>
                   </div>
                 </CardContent>
@@ -514,7 +510,7 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                     <ul className="grid gap-3 font-bold">
                       <li className="flex items-center justify-between">
                         <span className="text-muted-foreground">
-                          Remain AMt.
+                          Remain Amt.
                         </span>
                         <span>$0.00</span>
                       </li>
