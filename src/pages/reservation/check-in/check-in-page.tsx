@@ -54,6 +54,7 @@ import {
   DollarSign,
   EllipsisVertical,
   Filter,
+  Grid2x2Check,
   Minus,
   Plus,
   Search,
@@ -73,12 +74,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import AutoAllocationModal from "./components/auto-allocation-modal";
 
 const formSchema = z.object({
   adult: z.string(),
@@ -578,9 +575,7 @@ export default function CheckInPage() {
               </div>
 
               <div className="w-full flex justify-end gap-2">
-                <Button variant="outline" size="icon">
-                  <Search className="h-4 w-4" />
-                </Button>
+                <AutoAllocationModal />
 
                 <Button variant="outline">
                   <Filter className="mr-2 h-4 w-4" /> Filter
@@ -920,7 +915,7 @@ export default function CheckInPage() {
               </div>
 
               <div className="w-2/5 h-full flex items-end">
-                <div className="bg-gray-200 p-2 rounded-lg space-y-7 w-full h-full">
+                <div className=" p-2 rounded-lg space-y-7 w-full h-full">
                   <Card className="w-full space-y-5">
                     <CardHeader className="border-b py-4">
                       <CardTitle className="text-xl">Advance details</CardTitle>
@@ -990,153 +985,60 @@ export default function CheckInPage() {
                       <DialogTrigger asChild>
                         <Button>Update</Button>
                       </DialogTrigger>
-                      <DialogContent className="max-w-[1000px] py-20">
-                        <div className="w-full flex gap-7">
-                          <div className="w-3/5 space-y-3">
-                            <div>
-                              <Select>
-                                <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg">
-                                  <SelectValue placeholder="Bill to" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectGroup>
-                                    {["Customer", "Company"].map(
-                                      (item, index) => (
-                                        <SelectItem key={index} value={item}>
-                                          {item}
-                                        </SelectItem>
-                                      )
-                                    )}
-                                  </SelectGroup>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            <div className="flex w-full gap-2">
-                              <Input placeholder="First name" />
-                              <Input placeholder="Last name" />
-                            </div>
-                            <Input placeholder="Address" className="w-full" />
-                            <Input
-                              placeholder="Apartment, suite, etc. (optional)"
-                              className="w-full"
-                            />
-                            <div className="flex w-full gap-2">
-                              <Input placeholder="Postal Code" />
-                              <Input placeholder="City" />
-                            </div>
-                            <div className="relative">
-                              <Input placeholder="Phone" className="w-full" />
-                              <CircleHelp
-                                style={{
-                                  top: "50%",
-                                  transform: "translateY(-50%)",
-                                }}
-                                className="absolute w-4 h-4 right-2 text-muted-foreground cursor-pointer bg-white"
-                              />
-                            </div>
-                            <div className="flex items-center space-x-2 bg-white rounded-md">
-                              <Checkbox id="terms" />
-                              <label
-                                htmlFor="terms"
-                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-muted-foreground"
-                              >
-                                Save this information for next time
-                              </label>
-                            </div>
+                      <DialogContent className="max-w-lg py-5">
+                        <div className="flex flex-col gap-2">
+                          <h1 className="font-bold text-lg">
+                            1515151 Reservation ready to be sent
+                          </h1>
+
+                          <p className="text-black/90 text-md">
+                            Please note that in the range of June 1 to June 11,
+                            there are 195 documents pending review for
+                            submission.
+                          </p>
+                        </div>
+
+                        <div className="space-y-5">
+                          <div className="flex justify-between gap-5 items-center">
+                            <Label className="font-medium w-20">Email Id</Label>
+
+                            <Select>
+                              <SelectTrigger className="w-full rounded-lg">
+                                <SelectValue placeholder="example@gmail.com" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  <SelectLabel>Emails</SelectLabel>
+                                  {["admin@gmail.com", "user@gmail.com"].map(
+                                    (item, index) => (
+                                      <SelectItem key={index} value={item}>
+                                        {item}
+                                      </SelectItem>
+                                    )
+                                  )}
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
                           </div>
-                          <div className="w-2/5 space-y-3">
-                            <div className="space-y-2 text-xs">
-                              <div className="flex justify-between items-center w-full">
-                                <Label className="">Total</Label>
-                                <span className="font-semibold">INR 6000</span>
-                              </div>
-                              <div className="flex justify-between items-center w-full">
-                                <Label className="text-muted-foreground">
-                                  taxes
-                                </Label>
-                                <span className="font-semibold">2226</span>
-                              </div>
-                            </div>
-                            <div className="flex justify-between items-center w-full py-2">
-                              <Label className="text-lg">Payable Amount</Label>
-                              <Input
-                                placeholder="Amount"
-                                className="rounded-none h-10 w-32 text-lg"
-                              />
-                            </div>
-                            <div className="flex flex-col gap-2">
-                              <Label className="">Payment Mode</Label>
-                              <Select>
-                                <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg">
-                                  <SelectValue placeholder="Select payment mode" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectGroup>
-                                    {[
-                                      "Card",
-                                      "Net Banking",
-                                      "Cash",
-                                      "Cheque",
-                                    ].map((item, index) => (
-                                      <SelectItem key={index} value={item}>
-                                        {item}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            <div className="flex flex-col gap-2">
-                              <Label className="">Payment Mode</Label>
-                              <Select>
-                                <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg">
-                                  <SelectValue placeholder="Select bank" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectGroup>
-                                    {[
-                                      "Card",
-                                      "Net Banking",
-                                      "Cash",
-                                      "Cheque",
-                                    ].map((item, index) => (
-                                      <SelectItem key={index} value={item}>
-                                        {item}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectGroup>
-                                </SelectContent>
-                              </Select>
-                            </div>
 
-                            <div className="flex flex-col gap-2">
-                              <Label className="">Remarks</Label>
-                              <Textarea
-                                rows={4}
-                                className="bg-transparent w-full border-gray-400/75 rounded-lg"
-                              />
-                            </div>
+                          <div className="flex justify-between gap-5 items-start">
+                            <Label className="font-medium w-20">Message</Label>
 
-                            <div className="flex justify-start gap-5">
-                              {form.watch("status") === "Tentative" ? (
-                                <TentativeConfirmation />
-                              ) : (
-                                <Button type="button" className="font-normal">
-                                  Sumbit order
-                                </Button>
-                              )}
-                              <DialogClose asChild>
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  className="font-normal"
-                                >
-                                  Cancel
-                                </Button>
-                              </DialogClose>
-                            </div>
+                            <Textarea rows={4} />
                           </div>
                         </div>
+
+                        <DialogFooter>
+                          <DialogClose>
+                            <Button variant="ghost" className="py-5">
+                              Cancel
+                            </Button>
+                          </DialogClose>
+
+                          <Button className="bg-black hover:bg-black/80 gap-2 font-normal py-5">
+                            <Send className="h-4 w-4" /> Send Now
+                          </Button>
+                        </DialogFooter>
                       </DialogContent>
                     </Dialog>
                   </div>
