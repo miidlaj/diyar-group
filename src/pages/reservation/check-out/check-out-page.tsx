@@ -248,8 +248,8 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                           Type
                         </span>
                         <Select defaultValue="Regular Customer">
-                          <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
-                            {" "}
+                        <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
+                        {" "}
                             <SelectValue placeholder="Select type" />
                           </SelectTrigger>
                           <SelectContent>
@@ -307,8 +307,8 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                           Type
                         </span>
                         <Select defaultValue="Friend">
-                          <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
-                            {" "}
+                        <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
+                        {" "}
                             <SelectValue placeholder="Select type" />
                           </SelectTrigger>
                           <SelectContent>
@@ -380,7 +380,7 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                               </Label>
 
                               <Select defaultValue="Bank Payment">
-                                <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg">
+                                <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg text-black">
                                   <SelectValue placeholder="Select payment mode" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -406,7 +406,7 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                             />
 
                             <Select>
-                              <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg">
+                              <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg text-black">
                                 <SelectValue placeholder="Choose Bank Name" />
                               </SelectTrigger>
                               <SelectContent>
@@ -448,7 +448,7 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                               </Label>
 
                               <Select defaultValue="SSL Commerz">
-                                <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg">
+                                <SelectTrigger className="bg-transparent w-full border-gray-400/75 rounded-lg text-black">
                                   <SelectValue placeholder="Select payment mode" />
                                 </SelectTrigger>
                                 <SelectContent>
