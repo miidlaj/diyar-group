@@ -49,15 +49,12 @@ import { format } from "date-fns";
 import {
   BookOpenText,
   CalendarIcon,
-  CircleHelp,
   CloudDownload,
   DollarSign,
   EllipsisVertical,
   Filter,
-  Grid2x2Check,
   Minus,
   Plus,
-  Search,
   Send,
   Settings,
 } from "lucide-react";
@@ -65,7 +62,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogClose,
@@ -1052,127 +1048,127 @@ export default function CheckInPage() {
   );
 }
 
-const TentativeConfirmation = () => {
-  return (
-    <>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button type="button" className="font-normal">
-            Sumbit order
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="max-w-xl py-5">
-          <div className="flex flex-col gap-2">
-            <h1 className="font-bold text-lg">
-              7628 Reservation Created as a Tentative{" "}
-            </h1>
+// const TentativeConfirmation = () => {
+//   return (
+//     <>
+//       <Dialog>
+//         <DialogTrigger asChild>
+//           <Button type="button" className="font-normal">
+//             Sumbit order
+//           </Button>
+//         </DialogTrigger>
+//         <DialogContent className="max-w-xl py-5">
+//           <div className="flex flex-col gap-2">
+//             <h1 className="font-bold text-lg">
+//               7628 Reservation Created as a Tentative{" "}
+//             </h1>
 
-            <p className="text-black/90 text-md">
-              Please note that in the range of June 1 to June 11, there are 195
-              documents pending review for submission.
-            </p>
-          </div>
+//             <p className="text-black/90 text-md">
+//               Please note that in the range of June 1 to June 11, there are 195
+//               documents pending review for submission.
+//             </p>
+//           </div>
 
-          <div className="border rounded-xl">
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TableCell className="pl-5 text-muted-foreground">
-                    No. Adult
-                  </TableCell>
-                  <TableCell className="text-right font-medium">10</TableCell>
-                  <TableCell className="border-r gap-0 w-10">
-                    <Button variant="ghost" size="icon">
-                      <EllipsisVertical className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
+//           <div className="border rounded-xl">
+//             <Table>
+//               <TableBody>
+//                 <TableRow>
+//                   <TableCell className="pl-5 text-muted-foreground">
+//                     No. Adult
+//                   </TableCell>
+//                   <TableCell className="text-right font-medium">10</TableCell>
+//                   <TableCell className="border-r gap-0 w-10">
+//                     <Button variant="ghost" size="icon">
+//                       <EllipsisVertical className="h-4 w-4" />
+//                     </Button>
+//                   </TableCell>
+//                 </TableRow>
 
-                <TableRow>
-                  <TableCell className="pl-5 text-muted-foreground">
-                    No. Days
-                  </TableCell>
-                  <TableCell className="text-right font-medium">10</TableCell>
-                  <TableCell className="border-r gap-0 w-10">
-                    <Button variant="ghost" size="icon">
-                      <EllipsisVertical className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
+//                 <TableRow>
+//                   <TableCell className="pl-5 text-muted-foreground">
+//                     No. Days
+//                   </TableCell>
+//                   <TableCell className="text-right font-medium">10</TableCell>
+//                   <TableCell className="border-r gap-0 w-10">
+//                     <Button variant="ghost" size="icon">
+//                       <EllipsisVertical className="h-4 w-4" />
+//                     </Button>
+//                   </TableCell>
+//                 </TableRow>
 
-                <TableRow>
-                  <TableCell className="pl-5 text-muted-foreground">
-                    No. Rooms
-                  </TableCell>
-                  <TableCell className="text-right font-medium">10</TableCell>
-                  <TableCell className="border-r gap-0 w-10">
-                    <Button variant="ghost" size="icon">
-                      <EllipsisVertical className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
+//                 <TableRow>
+//                   <TableCell className="pl-5 text-muted-foreground">
+//                     No. Rooms
+//                   </TableCell>
+//                   <TableCell className="text-right font-medium">10</TableCell>
+//                   <TableCell className="border-r gap-0 w-10">
+//                     <Button variant="ghost" size="icon">
+//                       <EllipsisVertical className="h-4 w-4" />
+//                     </Button>
+//                   </TableCell>
+//                 </TableRow>
 
-                <TableRow>
-                  <TableCell className="pl-5 text-muted-foreground">
-                    Optional Date
-                  </TableCell>
-                  <TableCell className="text-right font-medium">
-                    5/10/2024
-                  </TableCell>
-                  <TableCell className="border-r gap-0 w-10">
-                    <Button variant="ghost" size="icon">
-                      <EllipsisVertical className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
+//                 <TableRow>
+//                   <TableCell className="pl-5 text-muted-foreground">
+//                     Optional Date
+//                   </TableCell>
+//                   <TableCell className="text-right font-medium">
+//                     5/10/2024
+//                   </TableCell>
+//                   <TableCell className="border-r gap-0 w-10">
+//                     <Button variant="ghost" size="icon">
+//                       <EllipsisVertical className="h-4 w-4" />
+//                     </Button>
+//                   </TableCell>
+//                 </TableRow>
 
-                <TableRow>
-                  <TableCell className="pl-5 text-muted-foreground">
-                    Balance Amount
-                  </TableCell>
-                  <TableCell className="text-right font-medium">
-                    $ 4,000
-                  </TableCell>
-                  <TableCell className="border-r gap-0 w-10">
-                    <Button variant="ghost" size="icon">
-                      <EllipsisVertical className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
+//                 <TableRow>
+//                   <TableCell className="pl-5 text-muted-foreground">
+//                     Balance Amount
+//                   </TableCell>
+//                   <TableCell className="text-right font-medium">
+//                     $ 4,000
+//                   </TableCell>
+//                   <TableCell className="border-r gap-0 w-10">
+//                     <Button variant="ghost" size="icon">
+//                       <EllipsisVertical className="h-4 w-4" />
+//                     </Button>
+//                   </TableCell>
+//                 </TableRow>
 
-                <TableRow>
-                  <TableCell className="pl-5 text-muted-foreground">
-                    Total Amount
-                  </TableCell>
-                  <TableCell className="text-right font-medium">
-                    $ 4,000
-                  </TableCell>
-                  <TableCell className="border-r gap-0 w-10">
-                    <Button variant="ghost" size="icon">
-                      <EllipsisVertical className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
+//                 <TableRow>
+//                   <TableCell className="pl-5 text-muted-foreground">
+//                     Total Amount
+//                   </TableCell>
+//                   <TableCell className="text-right font-medium">
+//                     $ 4,000
+//                   </TableCell>
+//                   <TableCell className="border-r gap-0 w-10">
+//                     <Button variant="ghost" size="icon">
+//                       <EllipsisVertical className="h-4 w-4" />
+//                     </Button>
+//                   </TableCell>
+//                 </TableRow>
+//               </TableBody>
+//             </Table>
+//           </div>
 
-          <DialogFooter>
-            <DialogClose>
-              <Button variant="ghost" className="py-5">
-                Cancel
-              </Button>
-            </DialogClose>
+//           <DialogFooter>
+//             <DialogClose>
+//               <Button variant="ghost" className="py-5">
+//                 Cancel
+//               </Button>
+//             </DialogClose>
 
-            <Button className="bg-black hover:bg-black/80 gap-2 font-normal py-5">
-              <Send className="h-4 w-4" /> Confirm
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </>
-  );
-};
+//             <Button className="bg-black hover:bg-black/80 gap-2 font-normal py-5">
+//               <Send className="h-4 w-4" /> Confirm
+//             </Button>
+//           </DialogFooter>
+//         </DialogContent>
+//       </Dialog>
+//     </>
+//   );
+// };
 
 const renderContent = (status: string) => {
   switch (status) {
