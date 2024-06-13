@@ -226,129 +226,12 @@ const ReservationCheckOutPage: FunctionComponent = () => {
               </Table>
             </ScrollArea>
 
-
-            <div className="flex gap-5">
-              <Card className="overflow-hidden w-1/2">
+            <div className="flex gap-3">
+              <Card className="overflow-hidden w-1/3">
                 <CardHeader className="flex flex-row items-start border-b border-b-black/30">
                   <div className="grid gap-0.5">
                     <CardTitle className="group flex items-center gap-2 text-lg">
-                      Credit
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-6 text-sm">
-                  <div className="grid gap-3">
-                    <ul className="grid gap-3 ">
-                      <li className="flex items-center justify-between gap-20">
-                        <span className="text-muted-foreground font-bold">
-                          Type
-                        </span>
-                        <Select defaultValue="Regular Customer">
-                          <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
-                            {" "}
-                            <SelectValue placeholder="Select type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              {["Regular Customer", "VIP"].map(
-                                (item, index) => (
-                                  <SelectItem key={index} value={item}>
-                                    {item}
-                                  </SelectItem>
-                                )
-                              )}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </li>
-                      <li className="flex items-center justify-between gap-20">
-                        <span className="text-muted-foreground font-bold">
-                          ($) Credit Amt.
-                        </span>
-                        <Input
-                          className="w-[350px]"
-                          type="number"
-                          value={500}
-                        />
-                      </li>
-
-                      <li className="flex items-start justify-between gap-20">
-                        <span className="text-muted-foreground font-bold">
-                          Remakrs
-                        </span>
-                        <Textarea
-                          className="w-[350px]"
-                          placeholder="Remarks"
-                          rows={4}
-                        />
-                      </li>
-                    </ul>
-                  </div>
-                </CardContent>
-
-                <BillSettlement />
-              </Card>
-
-              <Card className="overflow-hidden w-1/2">
-                <CardHeader className="flex flex-row items-start border-b border-b-black/30">
-                  <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">
-                      Special Discount
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-6 text-sm">
-                  <div className="grid gap-3">
-                    <ul className="grid gap-3 ">
-                      <li className="flex items-center justify-between gap-20">
-                        <span className="text-muted-foreground font-bold">
-                          Type
-                        </span>
-                        <Select defaultValue="Friend">
-                          <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
-                            {" "}
-                            <SelectValue placeholder="Select type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              {["Friend", "Worker"].map((item, index) => (
-                                <SelectItem key={index} value={item}>
-                                  {item}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </li>
-                      <li className="flex items-center justify-between gap-20">
-                        <span className="text-muted-foreground font-bold">
-                          ($) Discount Amt.
-                        </span>
-                        <Input
-                          className="w-[350px]"
-                          type="number"
-                          value={500}
-                        />
-                      </li>
-
-                      <li className="flex items-start justify-between gap-20">
-                        <span className="text-muted-foreground font-bold">
-                          Remakrs
-                        </span>
-                        <Textarea
-                          className="w-[350px]"
-                          placeholder="Remarks"
-                          rows={4}
-                        />
-                      </li>
-                    </ul>
-                  </div>
-                </CardContent>
-
-                <CardHeader className="flex flex-row items-start border-b border-b-black/30">
-                  <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">
-                      Balance Details
+                      Billing Details
                     </CardTitle>
                   </div>
                 </CardHeader>
@@ -357,29 +240,211 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                     <ul className="grid gap-3 font-bold">
                       <li className="flex items-center justify-between">
                         <span className="text-muted-foreground">
-                          Remain Amt.
+                          Room Rent Amt.
                         </span>
-                        <span>$0.00</span>
+                        <span>$25010000</span>
                       </li>
                       <li className="flex items-center justify-between">
-                        <span className="text-muted-foreground">
-                          Collected Amt.
-                        </span>
-                        <span>$1500.00</span>
-                      </li>
+                        <div className="text-muted-foreground flex flex-col gap-1">
+                          <span>Discount (Max-100%)</span>
+                          <span className="flex gap-1 items-center">
+                            <Input
+                              className="rounded-none h-6 w-32"
+                              type="number"
+                            />{" "}
+                            <span>(%) (or)</span>
+                          </span>
 
+                          <span className="flex gap-1 items-center">
+                            <Input
+                              className="rounded-none h-6 w-28"
+                              type="number"
+                            />{" "}
+                            <span>(Amount)</span>
+                          </span>
+                        </div>
+
+                        <Select defaultValue="Offer">
+                          <SelectTrigger className="bg-transparent w-max border-gray-400/75 rounded-lg h-7">
+                            <SelectValue placeholder="Select type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              {[
+                                "No Discount",
+                                "Offer",
+                                "Reduction",
+                                "MD Guest",
+                              ].map((item, index) => (
+                                <SelectItem key={index} value={item}>
+                                  {item}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </li>
                       <li className="flex items-center justify-between">
                         <span className="text-muted-foreground">
-                          Change Amt.
+                          Offer Discount Amt.
                         </span>
-                        <span>$0.00</span>
+                        <span>$0</span>
+                      </li>
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Service Charge Amt.
+                        </span>
+                        <span>$1750700</span>
+                      </li>
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Total Room Rent Amt.
+                        </span>
+                        <span>$25010000</span>
+                      </li>
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Total Room Rent Amt. With Tax
+                        </span>
+                        <span>$30387150.00</span>
+                      </li>
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Complementary Amt.
+                        </span>
+                        <span>$0</span>
+                      </li>
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Ex. Bed /Per. /Ch. Amt.
+                        </span>
+                        <span>$0</span>
+                      </li>
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Advance Amt.
+                        </span>
+                        <span>$0</span>
+                      </li>
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Payable Rent Amt.
+                        </span>
+                        <span>$30387150.00</span>
                       </li>
                     </ul>
                   </div>
                 </CardContent>
               </Card>
-            </div>
 
+              <Card className="overflow-hidden w-1/3">
+                <CardHeader className="flex flex-row items-start border-b border-b-black/30">
+                  <div className="grid gap-0.5">
+                    <CardTitle className="group flex items-center gap-2 text-lg">
+                      Additional Charges
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-6 text-sm">
+                  <div className="grid gap-3">
+                    <ul className="grid gap-3 ">
+                      <li className="flex items-center justify-between ">
+                        <span className="text-muted-foreground font-bold">
+                          Additional Charges
+                        </span>
+                        <Input type="number" className="w-min" />
+                      </li>
+
+                      <li className="flex items-start justify-between ">
+                        <span className="text-muted-foreground font-bold">
+                          Additional Charge Comments
+                        </span>
+                        <Textarea
+                          className="w-min"
+                          placeholder="Remarks"
+                          rows={4}
+                        />
+                      </li>
+                    </ul>
+                  </div>
+                </CardContent>
+
+                <CardHeader className="flex flex-row items-start border-b border-b-black/30">
+                  <div className="grid gap-0.5">
+                    <CardTitle className="group flex items-center gap-2 text-lg">
+                      Payment Details
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-6 text-sm">
+                  <div className="grid gap-3">
+                    <ul className="grid gap-3 font-bold">
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Net Payable Amt.
+                        </span>
+                        <span>$30387150.00</span>
+                      </li>
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Credit Amt.
+                        </span>
+                        <span>$0.00</span>
+                      </li>
+
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Special Discount Amt.
+                        </span>
+                        <span>$0.00</span>
+                      </li>
+
+                      <li className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Payable Amt.
+                        </span>
+                        <span>$30387150.00</span>
+                      </li>
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="overflow-hidden w-1/3">
+                <CardHeader className="flex flex-row items-start border-b border-b-black/30">
+                  <div className="grid gap-0.5">
+                    <CardTitle className="group flex items-center gap-2 text-lg">
+                      Room Posted Bill
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-6 text-sm">
+                  <Table className="rounded-xl overflow-hidden">
+                    <TableHeader className="bg-gray-100/75">
+                      <TableRow>
+                        <TableHead>Bill Type</TableHead>
+                        <TableHead>($) Total</TableHead>
+                        <TableHead>Action</TableHead>
+                      </TableRow>
+                    </TableHeader>
+
+                    <TableBody className="text-muted-foreground">
+                      <TableRow>
+                        <TableCell>Swimming Pool</TableCell>
+                        <TableCell>0</TableCell>
+                        <TableCell></TableCell>
+                      </TableRow>
+
+                      <TableRow>
+                        <TableCell>Restaurent</TableCell>
+                        <TableCell>0</TableCell>
+                        <TableCell></TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            </div>
 
             <div className="flex gap-5">
               <Card className="overflow-hidden w-1/2">
@@ -398,7 +463,7 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                           Type
                         </span>
                         <Select defaultValue="Regular Customer">
-                          <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
+                          <SelectTrigger className="bg-transparent w-[300px] border-gray-400/75 rounded-lg">
                             {" "}
                             <SelectValue placeholder="Select type" />
                           </SelectTrigger>
@@ -420,7 +485,7 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                           ($) Credit Amt.
                         </span>
                         <Input
-                          className="w-[350px]"
+                          className="w-[300px]"
                           type="number"
                           value={500}
                         />
@@ -431,7 +496,7 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                           Remakrs
                         </span>
                         <Textarea
-                          className="w-[350px]"
+                          className="w-[300px]"
                           placeholder="Remarks"
                           rows={4}
                         />
@@ -459,7 +524,7 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                           Type
                         </span>
                         <Select defaultValue="Friend">
-                          <SelectTrigger className="bg-transparent w-[350px] border-gray-400/75 rounded-lg">
+                          <SelectTrigger className="bg-transparent w-[300px] border-gray-400/75 rounded-lg">
                             {" "}
                             <SelectValue placeholder="Select type" />
                           </SelectTrigger>
@@ -479,7 +544,7 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                           ($) Discount Amt.
                         </span>
                         <Input
-                          className="w-[350px]"
+                          className="w-[300px]"
                           type="number"
                           value={500}
                         />
@@ -490,7 +555,7 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                           Remakrs
                         </span>
                         <Textarea
-                          className="w-[350px]"
+                          className="w-[300px]"
                           placeholder="Remarks"
                           rows={4}
                         />
