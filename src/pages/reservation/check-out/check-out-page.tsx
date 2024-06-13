@@ -1,15 +1,12 @@
 import React, { FunctionComponent } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormDescription } from "@/components/ui/form";
-
 import RoomSearch from "./components/search-room";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 import { CircleX, CreditCard, Plus } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -382,7 +379,7 @@ const ReservationCheckOutPage: FunctionComponent = () => {
                 </CardContent>
               </Card>
             </div>
-            
+
 
             <div className="flex gap-5">
               <Card className="overflow-hidden w-1/2">
